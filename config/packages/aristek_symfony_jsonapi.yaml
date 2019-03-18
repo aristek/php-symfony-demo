@@ -1,0 +1,9 @@
+aristek_symfony_jsonapi:
+    provider_key: main
+    user_class: App\Entity\User
+    user_repository: App\Repository\UserRepository
+    reset_password_strategy: reset_link
+    reset_password_template: ''
+    allow_aristek_mailer: true
+    user_service_id: App\Servoce\UserService
+    file_upload: false

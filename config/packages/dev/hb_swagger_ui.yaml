@@ -1,0 +1,4 @@
+hb_swagger_ui:
+    directory: "%aristek_symfony_jsonapi.swagger_docs_combiner.output_dir%"
+    files:
+        - "%aristek_symfony_jsonapi.swagger_docs_combiner.file%"

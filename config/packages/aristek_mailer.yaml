@@ -1,0 +1,3 @@
+aristek_mailer:
+    database_logger: true
+    from: '%env(MAILER_SENDER_ADDRESS)%'
