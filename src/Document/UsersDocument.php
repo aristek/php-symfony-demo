@@ -6,7 +6,7 @@ use Aristek\Bundle\SymfonyJSONAPIBundle\JsonApi\Document\AbstractCollectionDocum
 use WoohooLabs\Yin\JsonApi\Schema\Links;
 
 /**
- * Users Document.
+ * Class UsersDocument
  */
 class UsersDocument extends AbstractCollectionDocument
 {

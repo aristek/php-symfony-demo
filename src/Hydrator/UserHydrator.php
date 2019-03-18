@@ -12,7 +12,7 @@ use WoohooLabs\Yin\JsonApi\Exception\ExceptionFactoryInterface;
 use WoohooLabs\Yin\JsonApi\Request\RequestInterface;
 
 /**
- * Abstract User Hydrator.
+ * Class UserHydrator
  */
 class UserHydrator extends AbstractHydrator
 {

@@ -8,7 +8,7 @@ use WoohooLabs\Yin\JsonApi\Schema\Link\Link;
 use WoohooLabs\Yin\JsonApi\Schema\Links;
 
 /**
- * User Document.
+ * Class UserDocument
  */
 class UserDocument extends AbstractSingleResourceDocument
 {

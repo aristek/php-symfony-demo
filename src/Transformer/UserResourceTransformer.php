@@ -7,7 +7,7 @@ use WoohooLabs\Yin\JsonApi\Schema\Links;
 use WoohooLabs\Yin\JsonApi\Schema\Resource\AbstractResource;
 
 /**
- * User Resource Transformer.
+ * Class UserResourceTransformer
  */
 class UserResourceTransformer extends AbstractResource
 {
