@@ -57,32 +57,14 @@ class UserHydrator extends AbstractHydrator
     protected function getAttributeHydrator($user): array
     {
         return [
-            'username'               => function (User $user, string $username) {
-                $user->setUsername($username);
-            },
-            'email'                  => function (User $user, string $email) {
-                $user->setEmail($email);
-            },
-            'firstName'              => function (User $user, ?string $firstName) {
-                $user->setFirstName($firstName);
-            },
-            'lastName'               => function (User $user, ?string $lastName) {
-                $user->setLastName($lastName);
-            },
-            'password'               => function (User $user, ?string $plainPassword) {
-                if ($plainPassword) {
-                    $user->setPlainPassword($plainPassword);
-                }
-            },
-            'passwordChangeRequired' => function (User $user, bool $passwordChangeRequired) {
-                $user->setPasswordChangeRequired($passwordChangeRequired);
-            },
-            'active'                 => function (User $user, bool $active) {
-                $user->setActive($active);
-            },
-            'passwordChangeToken'    => function (User $user, ?string $passwordChangeToken) {
-                $user->setPasswordChangeToken($passwordChangeToken);
-            },
+            'username'               => [$this, 'hydrateUsername'],
+            'email'                  => [$this, 'hydrateEmail'],
+            'firstName'              => [$this, 'hydrateFirstName'],
+            'lastName'               => [$this, 'hydrateLastName'],
+            'password'               => [$this, 'hydratePassword'],
+            'passwordChangeRequired' => [$this, 'hydratePasswordChangeRequired'],
+            'active'                 => [$this, 'hydrateActive'],
+            'passwordChangeToken'    => [$this, 'hydratePasswordChangeToken'],
         ];
     }
 
@@ -123,5 +105,112 @@ class UserHydrator extends AbstractHydrator
     protected function getRelationshipHydrator($user): array
     {
         return [];
+    }
+
+    /**
+     * @return array
+     */
+    protected function getAttributes(): array
+    {
+        return [
+            'username',
+            'email',
+            'firstName',
+            'lastName',
+            'password',
+            'passwordChangeRequired',
+            'active',
+            'passwordChangeToken',
+        ];
+    }
+
+    /**
+     * @param User   $user
+     * @param string $username
+     *
+     * @return void
+     */
+    public function hydrateUsername(User $user, string $username): void
+    {
+        $user->setUsername($username);
+    }
+
+    /**
+     * @param User   $user
+     * @param string $email
+     *
+     * @return void
+     */
+    protected function hydrateEmail(User $user, string $email): void
+    {
+        $user->setEmail($email);
+    }
+
+    /**
+     * @param User        $user
+     * @param string|null $firstName
+     *
+     * @return void
+     */
+    protected function hydrateFirstName(User $user, ?string $firstName): void
+    {
+        $user->setFirstName($firstName);
+    }
+
+    /**
+     * @param User        $user
+     * @param string|null $lastName
+     *
+     * @return void
+     */
+    protected function hydrateLastName(User $user, ?string $lastName): void
+    {
+        $user->setLastName($lastName);
+    }
+
+    /**
+     * @param User        $user
+     * @param string|null $password
+     *
+     * @return void
+     */
+    protected function hydratePassword(User $user, ?string $password): void
+    {
+        if ($password) {
+            $user->setPlainPassword($password);
+        }
+    }
+
+    /**
+     * @param User $user
+     * @param bool $passwordChangeRequired
+     *
+     * @return void
+     */
+    protected function hydratePasswordChangeRequired(User $user, bool $passwordChangeRequired): void
+    {
+        $user->setPasswordChangeRequired($passwordChangeRequired);
+    }
+
+    /**
+     * @param User $user
+     * @param bool $active
+     *
+     * @return void
+     */
+    protected function hydrateActive(User $user, bool $active): void
+    {
+        $user->setActive($active);
+    }
+
+    /**
+     * @param User        $user
+     * @param string|null $passwordChangeToken
+     *
+     * @return void
+     */
+    protected function hydratePasswordChangeToken(User $user, ?string $passwordChangeToken): void
+    {
+        $user->setPasswordChangeToken($passwordChangeToken);
     }
 }
