@@ -14,7 +14,11 @@ use WoohooLabs\Yin\JsonApi\Request\RequestInterface;
 class UserHydrator extends AbstractHydrator
 {
     /**
-     * {@inheritdoc}
+     * @param string                    $clientGeneratedId
+     * @param RequestInterface          $request
+     * @param ExceptionFactoryInterface $exceptionFactory
+     *
+     * @return void
      */
     protected function validateClientGeneratedId(
         string $clientGeneratedId,
@@ -30,7 +34,7 @@ class UserHydrator extends AbstractHydrator
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     protected function generateId(): string
     {
@@ -38,7 +42,7 @@ class UserHydrator extends AbstractHydrator
     }
 
     /**
-     * {@inheritdoc}
+     * @return array
      */
     protected function getAcceptedTypes(): array
     {
@@ -46,7 +50,9 @@ class UserHydrator extends AbstractHydrator
     }
 
     /**
-     * {@inheritdoc}
+     * @param User $user
+     *
+     * @return array
      */
     protected function getAttributeHydrator($user): array
     {
