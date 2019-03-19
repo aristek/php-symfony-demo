@@ -11,7 +11,7 @@ use WoohooLabs\Yin\JsonApi\Schema\Links;
 class UsersDocument extends AbstractCollectionDocument
 {
     /**
-     * {@inheritdoc}
+     * @return Links
      */
     public function getLinks(): Links
     {

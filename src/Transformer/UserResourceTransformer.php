@@ -12,7 +12,9 @@ use WoohooLabs\Yin\JsonApi\Schema\Resource\AbstractResource;
 class UserResourceTransformer extends AbstractResource
 {
     /**
-     * {@inheritdoc}
+     * @param User $user
+     *
+     * @return string
      */
     public function getType($user): string
     {
@@ -30,7 +32,9 @@ class UserResourceTransformer extends AbstractResource
     }
 
     /**
-     * {@inheritdoc}
+     * @param User $user
+     *
+     * @return array
      */
     public function getMeta($user): array
     {
@@ -38,7 +42,9 @@ class UserResourceTransformer extends AbstractResource
     }
 
     /**
-     * {@inheritdoc}
+     * @param User $user
+     *
+     * @return Links|null
      */
     public function getLinks($user): ?Links
     {
@@ -46,37 +52,38 @@ class UserResourceTransformer extends AbstractResource
     }
 
     /**
-     * {@inheritdoc}
+     * @param User $user
+     *
+     * @return array
      */
     public function getAttributes($user): array
     {
         return [
-            'username'         => function (User $user) {
-                return $user->getUsername();
-            },
-            'firstName'        => function (User $user) {
-                return $user->getFirstName();
-            },
-            'lastName'         => function (User $user) {
-                return $user->getLastName();
-            },
-            'projectRoles'     => function (User $user) {
-                return $user->getProjectRoles();
-            },
-            'email'            => function (User $user) {
-                return $user->getEmail();
-            },
-            'active'           => function (User $user) {
+            'active'    => function (User $user) {
                 return $user->getActive();
             },
-            'productionAccess' => function (User $user) {
-                return $user->getProductionAccess();
+            'email'     => function (User $user) {
+                return $user->getEmail();
+            },
+            'firstName' => function (User $user) {
+                return $user->getFirstName();
+            },
+            'lastName'  => function (User $user) {
+                return $user->getLastName();
+            },
+            'roles'     => function (User $user) {
+                return $user->getRoles();
+            },
+            'username'  => function (User $user) {
+                return $user->getUsername();
             },
         ];
     }
 
     /**
-     * {@inheritdoc}
+     * @param User $user
+     *
+     * @return array
      */
     public function getDefaultIncludedRelationships($user): array
     {
@@ -84,7 +91,9 @@ class UserResourceTransformer extends AbstractResource
     }
 
     /**
-     * {@inheritdoc}
+     * @param User $user
+     *
+     * @return array
      */
     public function getRelationships($user): array
     {

@@ -13,7 +13,7 @@ use WoohooLabs\Yin\JsonApi\Schema\Links;
 class UserDocument extends AbstractSingleResourceDocument
 {
     /**
-     * {@inheritdoc}
+     * @return JsonApiObject
      */
     public function getJsonApi(): JsonApiObject
     {
@@ -21,7 +21,7 @@ class UserDocument extends AbstractSingleResourceDocument
     }
 
     /**
-     * {@inheritdoc}
+     * @return array
      */
     public function getMeta(): array
     {
@@ -29,7 +29,7 @@ class UserDocument extends AbstractSingleResourceDocument
     }
 
     /**
-     * {@inheritdoc}
+     * @return Links
      */
     public function getLinks(): Links
     {

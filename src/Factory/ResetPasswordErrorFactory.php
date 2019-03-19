@@ -22,10 +22,11 @@ class ResetPasswordErrorFactory implements ErrorFactoryInterface
     {
         $error = new Error();
 
-        $error->setTitle($message);
-        $error->setCode(static::ERROR_CODE);
-        $error->setStatus(static::ERROR_STATUS);
-        $error->setMeta($meta);
+        $error
+            ->setTitle($message)
+            ->setCode(static::ERROR_CODE)
+            ->setStatus(static::ERROR_STATUS)
+            ->setMeta($meta);
 
         return $error;
     }

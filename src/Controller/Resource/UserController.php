@@ -22,6 +22,8 @@ use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
+ * Class UserController
+ *
  * @Route("/users")
  */
 class UserController extends AbstractController

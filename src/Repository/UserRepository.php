@@ -4,16 +4,16 @@ namespace App\Repository;
 
 use App\Entity\User;
 use App\Service\Synchronization\UserSynchronization;
-use Aristek\Bundle\SymfonyJSONAPIBundle\Repository\UserRepository as Base;
+use Aristek\Bundle\SymfonyJSONAPIBundle\Repository\UserRepository as BaseUserRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * Class UserRepository
  *
- * @method User|null find($id, $lockMode = null, $lockVersion = null)
  * @method User create()
+ * @method User|null find($id, $lockMode = null, $lockVersion = null)
  */
-class UserRepository extends Base
+class UserRepository extends BaseUserRepository
 {
     /**
      * @var UserSynchronization
@@ -21,9 +21,9 @@ class UserRepository extends Base
     private $userSynchronization;
 
     /**
-     * SettingRepository constructor.
+     * UserRepository constructor.
      *
-     * @param ManagerRegistry              $registry
+     * @param ManagerRegistry     $registry
      * @param UserSynchronization $userSynchronization
      */
     public function __construct(ManagerRegistry $registry, UserSynchronization $userSynchronization)

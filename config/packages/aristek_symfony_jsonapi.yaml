@@ -5,5 +5,5 @@ aristek_symfony_jsonapi:
     reset_password_strategy: reset_link
     reset_password_template: ''
     allow_aristek_mailer: true
-    user_service_id: App\Servoce\UserService
+    user_service_id: App\Service\UserService
     file_upload: false

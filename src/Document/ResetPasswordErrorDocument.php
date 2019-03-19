@@ -27,7 +27,7 @@ class ResetPasswordErrorDocument extends AbstractErrorDocument
     }
 
     /**
-     * @inheritdoc
+     * @return Links|null
      */
     public function getLinks(): ?Links
     {

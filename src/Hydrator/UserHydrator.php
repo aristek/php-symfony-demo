@@ -4,10 +4,7 @@ namespace App\Hydrator;
 
 use App\Entity\User;
 use Aristek\Bundle\SymfonyJSONAPIBundle\JsonApi\Hydrator\AbstractHydrator;
-use Aristek\Bundle\SymfonyJSONAPIBundle\Service\WrongFieldsLogger;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use WoohooLabs\Yin\JsonApi\Exception\ExceptionFactoryInterface;
 use WoohooLabs\Yin\JsonApi\Request\RequestInterface;
 
@@ -16,28 +13,6 @@ use WoohooLabs\Yin\JsonApi\Request\RequestInterface;
  */
 class UserHydrator extends AbstractHydrator
 {
-    /**
-     * @var UserPasswordEncoderInterface
-     */
-    private $passwordEncoder;
-
-    /**
-     * UserHydrator constructor.
-     *
-     * @param ObjectManager                $objectManager
-     * @param UserPasswordEncoderInterface $passwordEncoder
-     * @param                              $wrongFieldsLogger
-     */
-    public function __construct(
-        ObjectManager $objectManager,
-        UserPasswordEncoderInterface $passwordEncoder,
-        WrongFieldsLogger $wrongFieldsLogger
-    ) {
-        parent::__construct($objectManager, $wrongFieldsLogger);
-
-        $this->passwordEncoder = $passwordEncoder;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -75,37 +50,32 @@ class UserHydrator extends AbstractHydrator
      */
     protected function getAttributeHydrator($user): array
     {
-        /**
-         * All possible callback params
-         * @see \WoohooLabs\Yin\JsonApi\Hydrator\HydratorTrait::hydrateAttributes()
-         */
         return [
-            'username'               => function (User $user, string $attribute) {
-                $user->setUsername($attribute);
+            'username'               => function (User $user, string $username) {
+                $user->setUsername($username);
             },
-            'email'                  => function (User $user, string $attribute) {
-                $user->setEmail($attribute);
+            'email'                  => function (User $user, string $email) {
+                $user->setEmail($email);
             },
-            'firstName'              => function (User $user, ?string $attribute) {
-                $user->setFirstName($attribute);
+            'firstName'              => function (User $user, ?string $firstName) {
+                $user->setFirstName($firstName);
             },
-            'lastName'               => function (User $user, ?string $attribute) {
-                $user->setLastName($attribute);
+            'lastName'               => function (User $user, ?string $lastName) {
+                $user->setLastName($lastName);
             },
-            'password'               => function (User $user, ?string $attribute) {
-                if ($attribute) {
-                    $user->setPlainPassword($attribute);
-                    $user->setPassword($this->passwordEncoder->encodePassword($user, $attribute));
+            'password'               => function (User $user, ?string $plainPassword) {
+                if ($plainPassword) {
+                    $user->setPlainPassword($plainPassword);
                 }
             },
-            'passwordChangeRequired' => function (User $user, bool $attribute) {
-                $user->setPasswordChangeRequired($attribute);
+            'passwordChangeRequired' => function (User $user, bool $passwordChangeRequired) {
+                $user->setPasswordChangeRequired($passwordChangeRequired);
             },
-            'active'                 => function (User $user, bool $attribute) {
-                $user->setActive($attribute);
+            'active'                 => function (User $user, bool $active) {
+                $user->setActive($active);
             },
-            'passwordChangeToken'    => function (User $user, ?string $attribute) {
-                $user->setPasswordChangeToken($attribute);
+            'passwordChangeToken'    => function (User $user, ?string $passwordChangeToken) {
+                $user->setPasswordChangeToken($passwordChangeToken);
             },
         ];
     }
@@ -140,7 +110,9 @@ class UserHydrator extends AbstractHydrator
     }
 
     /**
-     * {@inheritdoc}
+     * @param User $user
+     *
+     * @return array
      */
     protected function getRelationshipHydrator($user): array
     {
