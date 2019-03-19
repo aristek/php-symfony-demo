@@ -34,20 +34,6 @@ class UserRepository extends Base
     }
 
     /**
-     * @required
-     *
-     * @param UserSynchronization $userSynchronization
-     *
-     * @return UserRepository
-     */
-    public function setUserSynchronization(UserSynchronization $userSynchronization): UserRepository
-    {
-        $this->userSynchronization = $userSynchronization;
-
-        return $this;
-    }
-
-    /**
      * @param User $entity
      * @param bool $flush
      *
