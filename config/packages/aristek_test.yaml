@@ -1,0 +1,2 @@
+aristek_test:
+    default_fixtures_file: '%kernel.project_dir%/fixtures/defaults.yml'

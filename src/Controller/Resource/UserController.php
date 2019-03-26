@@ -18,6 +18,7 @@ use Aristek\Bundle\SymfonyJSONAPIBundle\Service\Filter\ResourceProvider;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -33,6 +34,7 @@ class UserController extends AbstractController
      *
      * @param Request                 $request
      * @param ResourceProvider        $resourceProvider
+     * @param RouterInterface         $router
      * @param UserRepository          $userRepository
      * @param UserResourceTransformer $transformer
      *
@@ -41,11 +43,12 @@ class UserController extends AbstractController
     public function index(
         Request $request,
         ResourceProvider $resourceProvider,
+        RouterInterface $router,
         UserRepository $userRepository,
         UserResourceTransformer $transformer
     ): ResponseInterface {
         return $this->jsonApi()->respond()->ok(
-            new UsersDocument($transformer),
+            new UsersDocument($transformer, $router),
             $resourceProvider->getResources($request, $this->generateQuery($userRepository, $request))
         );
     }

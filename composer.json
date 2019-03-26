@@ -4,6 +4,7 @@
     "require": {
         "php": "^7.3",
         "ext-ctype": "*",
+        "ext-pdo": "*",
         "ext-iconv": "*",
         "ext-json": "*",
         "aristek/aristek-general": "2.0.x-dev",
@@ -18,16 +19,15 @@
         "symfony/framework-bundle": "4.2.*",
         "symfony/security-bundle": "4.2.*",
         "symfony/swiftmailer-bundle": "^3.2",
-        "symfony/test-pack": "^1.0",
         "symfony/twig-bundle": "4.2.*",
         "symfony/yaml": "4.2.*"
     },
     "require-dev": {
+        "aristek/aristek-test": "^1",
         "harmbandstra/swagger-ui-bundle": "^4.0",
         "symfony/debug-bundle": "^4.0",
         "symfony/dotenv": "^4.0",
         "symfony/maker-bundle": "^1.11",
-        "symfony/phpunit-bridge": "^4.0",
         "symfony/process": "^4.0",
         "symfony/profiler-pack": "^1.0",
         "symfony/var-dumper": "^4.0"
@@ -41,6 +41,11 @@
         {
             "type": "vcs",
             "url": "git@github.com:aturchak/aristek-symfony-json-api.git",
+            "no-api": true
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:aturchak/aristek-test.git",
             "no-api": true
         }
     ],

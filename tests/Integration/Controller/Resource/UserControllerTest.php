@@ -2,18 +2,18 @@
 
 namespace Test\Integration\Controller\Resource;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\BrowserKit\Client;
+use App\Entity\User;
+use Aristek\Bundle\TestBundle\Test\DatabaseIntegrationTest;
 
 /**
  * Class UserControllerTest
  */
-class UserControllerTest extends WebTestCase
+class UserControllerTest extends DatabaseIntegrationTest
 {
     /**
-     * @var Client
+     * @var bool
      */
-    private $client;
+    protected $wrapTestInTransaction = true;
 
     /**
      * @test
@@ -22,22 +22,48 @@ class UserControllerTest extends WebTestCase
      */
     public function indexTest(): void
     {
+        /** @var User[] $fixtures */
+        $fixtures = $this->fixtureLoader->loadDefaultFixtures();
         $this->client->request('GET', '/resources/users');
 
-        // @todo add fixtures and change expected result
         $this->assertEquals(
             json_encode(
                 [
                     'jsonapi' => ['version' => '1.0'],
-                    'meta'    => ['pagination' => ['count' => 0]],
+                    'meta'    => ['pagination' => ['count' => 2]],
                     'links'   => [
-                        'self'  => null,
-                        'first' => null,
-                        'last'  => null,
+                        'self'  => '/resources/users?page[offset]=0',
+                        'first' => '/resources/users?page[offset]=0',
+                        'last'  => '/resources/users?page[offset]=0',
                         'prev'  => null,
                         'next'  => null,
                     ],
-                    'data'    => [],
+                    'data'    => [
+                        [
+                            'type'       => 'users',
+                            'id'         => (string) $fixtures['user_admin']->getId(),
+                            'attributes' => [
+                                'active'    => true,
+                                'email'     => 'admin@aristek.test.com',
+                                'firstName' => 'F_name',
+                                'lastName'  => 'L_name',
+                                'roles'     => ['ROLE_USER'],
+                                'username'  => 'admin',
+                            ],
+                        ],
+                        [
+                            'type'       => 'users',
+                            'id'         => (string) $fixtures['user_2']->getId(),
+                            'attributes' => [
+                                'active'    => true,
+                                'email'     => 'user@aristek.test.com',
+                                'firstName' => 'U_name',
+                                'lastName'  => 'U_name',
+                                'roles'     => ['ROLE_USER'],
+                                'username'  => 'user',
+                            ],
+                        ],
+                    ],
                 ]
             ),
             $this->client->getResponse()->getContent()
@@ -87,14 +113,5 @@ class UserControllerTest extends WebTestCase
      */
     public function resetPasswordTest(): void
     {
-    }
-
-    /**
-     * @return void
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->client = self::createClient();
     }
 }

@@ -4,5 +4,6 @@
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/vendor/aristek/aristek-general" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/vendor/aristek/aristek-symfony-json-api" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/vendor/aristek/aristek-test" vcs="Git" />
   </component>
 </project>
