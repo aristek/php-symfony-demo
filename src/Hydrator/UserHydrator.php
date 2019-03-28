@@ -4,9 +4,6 @@ namespace App\Hydrator;
 
 use App\Entity\User;
 use Aristek\Bundle\SymfonyJSONAPIBundle\JsonApi\Hydrator\AbstractHydrator;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use WoohooLabs\Yin\JsonApi\Exception\ExceptionFactoryInterface;
-use WoohooLabs\Yin\JsonApi\Request\RequestInterface;
 
 /**
  * Class UserHydrator
@@ -14,98 +11,9 @@ use WoohooLabs\Yin\JsonApi\Request\RequestInterface;
 class UserHydrator extends AbstractHydrator
 {
     /**
-     * @param string                    $clientGeneratedId
-     * @param RequestInterface          $request
-     * @param ExceptionFactoryInterface $exceptionFactory
-     *
-     * @return void
+     * @var string
      */
-    protected function validateClientGeneratedId(
-        string $clientGeneratedId,
-        RequestInterface $request,
-        ExceptionFactoryInterface $exceptionFactory
-    ): void {
-        if (!empty($clientGeneratedId)) {
-            throw $exceptionFactory->createClientGeneratedIdNotSupportedException(
-                $request,
-                $clientGeneratedId
-            );
-        }
-    }
-
-    /**
-     * @return string
-     */
-    protected function generateId(): string
-    {
-        return '';
-    }
-
-    /**
-     * @return array
-     */
-    protected function getAcceptedTypes(): array
-    {
-        return ['users'];
-    }
-
-    /**
-     * @param User $user
-     *
-     * @return array
-     */
-    protected function getAttributeHydrator($user): array
-    {
-        return [
-            'username'               => [$this, 'hydrateUsername'],
-            'email'                  => [$this, 'hydrateEmail'],
-            'firstName'              => [$this, 'hydrateFirstName'],
-            'lastName'               => [$this, 'hydrateLastName'],
-            'password'               => [$this, 'hydratePassword'],
-            'passwordChangeRequired' => [$this, 'hydratePasswordChangeRequired'],
-            'active'                 => [$this, 'hydrateActive'],
-            'passwordChangeToken'    => [$this, 'hydratePasswordChangeToken'],
-        ];
-    }
-
-    /**
-     * @return array
-     */
-    protected function getAdditionalFields(): array
-    {
-        return ['projectAccessesIds'];
-    }
-
-    /**
-     * @param RequestInterface $request
-     */
-    protected function validateRequest(RequestInterface $request): void
-    {
-        $attributes = array_merge($this->getAdditionalFields(), array_keys($this->getAttributeHydrator(null)));
-        $attributes = array_unique($attributes);
-        $this->validateFields($attributes, $request->getResourceAttributes());
-    }
-
-    /**
-     * @param User   $user
-     * @param string $id
-     */
-    protected function setId($user, string $id): void
-    {
-        if ($id && (int) $user->getId() !== (int) $id) {
-            throw new NotFoundHttpException('both ids in url & body bust be same');
-        }
-    }
-
-    /**
-     * @param User $user
-     *
-     * @return array
-     */
-    protected function getRelationshipHydrator($user): array
-    {
-        return [];
-    }
+    protected $acceptedType = 'users';
 
     /**
      * @return array
@@ -130,7 +38,7 @@ class UserHydrator extends AbstractHydrator
      *
      * @return void
      */
-    public function hydrateUsername(User $user, string $username): void
+    protected function hydrateUsername(User $user, string $username): void
     {
         $user->setUsername($username);
     }

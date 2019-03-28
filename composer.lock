@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "fb6b66ea4817b1861ec31a0b2c6dcc6a",
+    "content-hash": "48c09925575224104016e13cfb4df940",
     "packages": [
         {
             "name": "aristek/aristek-general",
@@ -42,16 +42,16 @@
         },
         {
             "name": "aristek/aristek-symfony-json-api",
-            "version": "v0.0.49",
+            "version": "v0.0.52",
             "source": {
                 "type": "git",
                 "url": "git@github.com:aturchak/aristek-symfony-json-api.git",
-                "reference": "ea629a1e205fcd53e4d011234800d8b6c276245d"
+                "reference": "024c10bad350d0602fccb20e88a89abf7d97da91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aturchak/aristek-symfony-json-api/zipball/ea629a1e205fcd53e4d011234800d8b6c276245d",
-                "reference": "ea629a1e205fcd53e4d011234800d8b6c276245d",
+                "url": "https://api.github.com/repos/aturchak/aristek-symfony-json-api/zipball/024c10bad350d0602fccb20e88a89abf7d97da91",
+                "reference": "024c10bad350d0602fccb20e88a89abf7d97da91",
                 "shasum": ""
             },
             "require": {
@@ -95,7 +95,7 @@
             "license": [
                 "proprietary"
             ],
-            "time": "2019-03-25T15:08:08+00:00"
+            "time": "2019-03-27T14:57:44+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -7030,6 +7030,7 @@
     "platform": {
         "php": "^7.3",
         "ext-ctype": "*",
+        "ext-pdo": "*",
         "ext-iconv": "*",
         "ext-json": "*"
     },

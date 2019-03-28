@@ -66,9 +66,9 @@ class UserRepository extends BaseUserRepository
 
             $this->userSynchronization->delete($entity, $id);
             $this->_em->commit();
-        } catch (\Throwable $e) {
+        } catch (\Throwable $throwable) {
             $this->_em->rollback();
-            throw $e;
+            throw $throwable;
         }
     }
 }

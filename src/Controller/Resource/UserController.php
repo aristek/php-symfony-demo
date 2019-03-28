@@ -11,14 +11,13 @@ use App\Factory\ResetPasswordErrorFactory;
 use App\Hydrator\UserHydrator;
 use App\Repository\UserRepository;
 use App\Service\UserService;
-use App\Transformer\UserResourceTransformer;
+use App\Transformer\UserTransformer;
 use Aristek\Bundle\ExtraBundle\Exception\AppException;
 use Aristek\Bundle\SymfonyJSONAPIBundle\Controller\AbstractController;
 use Aristek\Bundle\SymfonyJSONAPIBundle\Service\Filter\ResourceProvider;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -32,23 +31,21 @@ class UserController extends AbstractController
     /**
      * @Route("", name="users_index", methods="GET")
      *
-     * @param Request                 $request
-     * @param ResourceProvider        $resourceProvider
-     * @param RouterInterface         $router
-     * @param UserRepository          $userRepository
-     * @param UserResourceTransformer $transformer
+     * @param Request          $request
+     * @param ResourceProvider $resourceProvider
+     * @param UserRepository   $userRepository
+     * @param UserTransformer  $transformer
      *
      * @return ResponseInterface
      */
     public function index(
         Request $request,
         ResourceProvider $resourceProvider,
-        RouterInterface $router,
         UserRepository $userRepository,
-        UserResourceTransformer $transformer
+        UserTransformer $transformer
     ): ResponseInterface {
         return $this->jsonApi()->respond()->ok(
-            new UsersDocument($transformer, $router),
+            new UsersDocument($transformer, $this->router),
             $resourceProvider->getResources($request, $this->generateQuery($userRepository, $request))
         );
     }
@@ -56,17 +53,17 @@ class UserController extends AbstractController
     /**
      * @Route("", name="users_new", methods="POST")
      *
-     * @param UserHydrator            $hydrator
-     * @param UserRepository          $userRepository
-     * @param UserResourceTransformer $transformer
-     * @param ValidatorInterface      $validator
+     * @param UserHydrator       $hydrator
+     * @param UserRepository     $userRepository
+     * @param UserTransformer    $transformer
+     * @param ValidatorInterface $validator
      *
      * @return ResponseInterface
      */
     public function new(
         UserHydrator $hydrator,
         UserRepository $userRepository,
-        UserResourceTransformer $transformer,
+        UserTransformer $transformer,
         ValidatorInterface $validator
     ): ResponseInterface {
         $user = $this->jsonApi()->hydrate($hydrator, $userRepository->create());
@@ -79,30 +76,30 @@ class UserController extends AbstractController
 
         $userRepository->save($user);
 
-        return $this->jsonApi()->respond()->ok(new UserDocument($transformer), $user);
+        return $this->jsonApi()->respond()->ok(new UserDocument($transformer, $this->router), $user);
     }
 
     /**
      * @Route("/{id}", name="users_show", methods="GET", requirements={"id"="\d+"})
      *
-     * @param User                    $user
-     * @param UserResourceTransformer $transformer
+     * @param User            $user
+     * @param UserTransformer $transformer
      *
      * @return ResponseInterface
      */
-    public function show(User $user, UserResourceTransformer $transformer): ResponseInterface
+    public function show(User $user, UserTransformer $transformer): ResponseInterface
     {
-        return $this->jsonApi()->respond()->ok(new UserDocument($transformer), $user);
+        return $this->jsonApi()->respond()->ok(new UserDocument($transformer, $this->router), $user);
     }
 
     /**
      * @Route("/{id}", name="users_edit", methods="PATCH", requirements={"id"="\d+"})
      *
-     * @param User                    $user
-     * @param UserHydrator            $hydrator
-     * @param UserRepository          $userRepository
-     * @param UserResourceTransformer $transformer
-     * @param ValidatorInterface      $validator
+     * @param User               $user
+     * @param UserHydrator       $hydrator
+     * @param UserRepository     $userRepository
+     * @param UserTransformer    $transformer
+     * @param ValidatorInterface $validator
      *
      * @return ResponseInterface
      */
@@ -110,7 +107,7 @@ class UserController extends AbstractController
         User $user,
         UserHydrator $hydrator,
         UserRepository $userRepository,
-        UserResourceTransformer $transformer,
+        UserTransformer $transformer,
         ValidatorInterface $validator
     ): ResponseInterface {
         $user = $this->jsonApi()->hydrate($hydrator, $user);
@@ -123,7 +120,7 @@ class UserController extends AbstractController
 
         $userRepository->save($user);
 
-        return $this->jsonApi()->respond()->ok(new UserDocument($transformer), $user);
+        return $this->jsonApi()->respond()->ok(new UserDocument($transformer, $this->router), $user);
     }
 
     /**
@@ -159,7 +156,7 @@ class UserController extends AbstractController
     ): ResponseInterface {
         try {
             $userService->resetPassword($user);
-        } catch (AppException $exception) {
+        } /** @noinspection PhpRedundantCatchClauseInspection */ catch (AppException $exception) {
             return $this->jsonApi()->respond()->genericError(
                 new ResetPasswordErrorDocument($user->getId()),
                 $errorsFactory->create($resetPasswordErrorFactory, [$exception->getMessage()])
