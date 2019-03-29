@@ -42,16 +42,16 @@
         },
         {
             "name": "aristek/aristek-symfony-json-api",
-            "version": "v0.0.52",
+            "version": "v0.0.54",
             "source": {
                 "type": "git",
                 "url": "git@github.com:aturchak/aristek-symfony-json-api.git",
-                "reference": "024c10bad350d0602fccb20e88a89abf7d97da91"
+                "reference": "84618adbeb4959ff39c164499d81c54f36698c9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aturchak/aristek-symfony-json-api/zipball/024c10bad350d0602fccb20e88a89abf7d97da91",
-                "reference": "024c10bad350d0602fccb20e88a89abf7d97da91",
+                "url": "https://api.github.com/repos/aturchak/aristek-symfony-json-api/zipball/84618adbeb4959ff39c164499d81c54f36698c9a",
+                "reference": "84618adbeb4959ff39c164499d81c54f36698c9a",
                 "shasum": ""
             },
             "require": {
@@ -95,7 +95,7 @@
             "license": [
                 "proprietary"
             ],
-            "time": "2019-03-27T14:57:44+00:00"
+            "time": "2019-03-28T17:59:34+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -5545,12 +5545,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:aturchak/aristek-test.git",
-                "reference": "5a52f838fc9796df28859c29a2a610224afc7dbb"
+                "reference": "e15fcb19980736363e21be86471cec2914794ac2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aturchak/aristek-test/zipball/5a52f838fc9796df28859c29a2a610224afc7dbb",
-                "reference": "5a52f838fc9796df28859c29a2a610224afc7dbb",
+                "url": "https://api.github.com/repos/aturchak/aristek-test/zipball/e15fcb19980736363e21be86471cec2914794ac2",
+                "reference": "e15fcb19980736363e21be86471cec2914794ac2",
                 "shasum": ""
             },
             "require": {

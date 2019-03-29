@@ -21,16 +21,6 @@ class UserTransformer extends AbstractTransformer
     }
 
     /**
-     * @param User $user
-     *
-     * @return string
-     */
-    public function getId($user): string
-    {
-        return (string) $user->getId();
-    }
-
-    /**
      * @return array
      */
     protected function getTransformableAttributes(): array

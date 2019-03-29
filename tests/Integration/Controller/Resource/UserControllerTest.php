@@ -16,14 +16,17 @@ class UserControllerTest extends DatabaseIntegrationTest
     protected $wrapTestInTransaction = true;
 
     /**
+     * @var User[]
+     */
+    private $fixtures;
+
+    /**
      * @test
      *
      * @return void
      */
     public function indexTest(): void
     {
-        /** @var User[] $fixtures */
-        $fixtures = $this->fixtureLoader->loadDefaultFixtures();
         $this->client->request('GET', '/resources/users');
 
         $this->assertEquals(
@@ -41,7 +44,7 @@ class UserControllerTest extends DatabaseIntegrationTest
                     'data'    => [
                         [
                             'type'       => 'users',
-                            'id'         => (string) $fixtures['user_admin']->getId(),
+                            'id'         => (string) $this->fixtures['user_admin']->getId(),
                             'attributes' => [
                                 'active'    => true,
                                 'email'     => 'admin@aristek.test.com',
@@ -53,7 +56,7 @@ class UserControllerTest extends DatabaseIntegrationTest
                         ],
                         [
                             'type'       => 'users',
-                            'id'         => (string) $fixtures['user_2']->getId(),
+                            'id'         => (string) $this->fixtures['user_2']->getId(),
                             'attributes' => [
                                 'active'    => true,
                                 'email'     => 'user@aristek.test.com',
@@ -86,6 +89,31 @@ class UserControllerTest extends DatabaseIntegrationTest
      */
     public function showTest(): void
     {
+        foreach ($this->fixtures as $user) {
+            $id = (string) $user->getId();
+            $this->client->request('GET', sprintf('/resources/users/%s', $id));
+            $this->assertEquals(
+                json_encode(
+                    [
+                        'jsonapi' => ['version' => '1.0'],
+                        'links'   => ['self' => sprintf('/users/%s', $id)],
+                        'data'    => [
+                            'type'       => 'users',
+                            'id'         => $id,
+                            'attributes' => [
+                                'active'    => true,
+                                'email'     => 'admin@aristek.test.com',
+                                'firstName' => 'F_name',
+                                'lastName'  => 'L_name',
+                                'roles'     => ['ROLE_USER'],
+                                'username'  => 'admin',
+                            ],
+                        ],
+                    ]
+                ),
+                $this->client->getResponse()->getContent()
+            );
+        }
     }
 
     /**
@@ -104,6 +132,11 @@ class UserControllerTest extends DatabaseIntegrationTest
      */
     public function deleteTest(): void
     {
+        foreach ($this->fixtures as $user) {
+            $id = (string) $user->getId();
+            $this->client->request('DELETE', sprintf('/resources/users/%s', $id));
+            $this->assertEquals(204, $this->client->getResponse()->getStatusCode());
+        }
     }
 
     /**
@@ -113,5 +146,15 @@ class UserControllerTest extends DatabaseIntegrationTest
      */
     public function resetPasswordTest(): void
     {
+    }
+
+    /**
+     * @return void
+     */
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->fixtures = $this->fixtureLoader->loadFixturesFromFiles(['Controller/UserController.yml']);
     }
 }
