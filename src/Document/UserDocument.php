@@ -16,6 +16,8 @@ class UserDocument extends AbstractSingleResourceDocument
      */
     public function getLinks(): Links
     {
-        return Links::createWithoutBaseUri(['self' => new Link('/users/'.$this->getResourceId())]);
+        return Links::createWithoutBaseUri(
+            ['self' => new Link($this->router->generate('users_show', ['id' => $this->getResourceId()]))]
+        );
     }
 }

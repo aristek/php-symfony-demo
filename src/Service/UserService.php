@@ -2,16 +2,33 @@
 
 namespace App\Service;
 
+use App\Repository\UserRepository;
 use Aristek\Bundle\ExtraBundle\Exception\AppException;
 use Aristek\Bundle\SymfonyJSONAPIBundle\API\APIUserData;
 use Aristek\Bundle\SymfonyJSONAPIBundle\Model\UserInterface;
 use Aristek\Bundle\SymfonyJSONAPIBundle\Service\User\UserServiceInterface;
+use Aristek\Component\Util\StringHelper;
 
 /**
  * Class UserService
  */
 class UserService implements UserServiceInterface
 {
+    /**
+     * @var UserRepository
+     */
+    private $userRepository;
+
+    /**
+     * UserService constructor.
+     *
+     * @param UserRepository $userRepository
+     */
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
     /**
      * @param string $username
      * @param string $password
@@ -84,12 +101,11 @@ class UserService implements UserServiceInterface
      * @param string        $password
      *
      * @return void
-     *
-     * @throws AppException
      */
     public function updateUserPassword(UserInterface $user, string $password): void
     {
-        throw new AppException('Incomplete class.');
+        $user->setPlainPassword($password);
+        $this->save($user);
     }
 
     /**
@@ -120,12 +136,10 @@ class UserService implements UserServiceInterface
      * @param UserInterface $user
      *
      * @return void
-     *
-     * @throws AppException
      */
     public function resetPassword(UserInterface $user): void
     {
-        throw new AppException('Incomplete class.');
+        $this->updateUserPassword($user, StringHelper::randomPassword());
     }
 
     /**
@@ -151,11 +165,9 @@ class UserService implements UserServiceInterface
      * @param UserInterface $user
      *
      * @return void
-     *
-     * @throws AppException
      */
     public function save(UserInterface $user): void
     {
-        throw new AppException('Incomplete class.');
+        $this->userRepository->save($user);
     }
 }

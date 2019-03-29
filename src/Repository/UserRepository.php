@@ -4,8 +4,10 @@ namespace App\Repository;
 
 use App\Entity\User;
 use App\Service\Synchronization\UserSynchronization;
+use Aristek\Bundle\ExtraBundle\Model\UserInterface;
 use Aristek\Bundle\SymfonyJSONAPIBundle\Repository\UserRepository as BaseUserRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
 /**
  * Class UserRepository
@@ -23,19 +25,24 @@ class UserRepository extends BaseUserRepository
     /**
      * UserRepository constructor.
      *
-     * @param ManagerRegistry     $registry
-     * @param UserSynchronization $userSynchronization
+     * @param ManagerRegistry         $registry
+     * @param UserSynchronization     $userSynchronization
+     * @param EncoderFactoryInterface $encoderFactory
      */
-    public function __construct(ManagerRegistry $registry, UserSynchronization $userSynchronization)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        UserSynchronization $userSynchronization,
+        EncoderFactoryInterface $encoderFactory
+    ) {
         parent::__construct($registry, User::class);
 
         $this->userSynchronization = $userSynchronization;
+        $this->encoderFactory = $encoderFactory;
     }
 
     /**
-     * @param User $entity
-     * @param bool $flush
+     * @param User|UserInterface $entity
+     * @param bool               $flush
      *
      * @return void
      */

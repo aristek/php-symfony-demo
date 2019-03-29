@@ -2,17 +2,13 @@
 
 namespace App\Controller\Resource;
 
-use App\Document\ResetPasswordErrorDocument;
 use App\Document\UserDocument;
 use App\Document\UsersDocument;
 use App\Entity\User;
-use App\Factory\ErrorsFactory;
-use App\Factory\ResetPasswordErrorFactory;
 use App\Hydrator\UserHydrator;
 use App\Repository\UserRepository;
 use App\Service\UserService;
 use App\Transformer\UserTransformer;
-use Aristek\Bundle\ExtraBundle\Exception\AppException;
 use Aristek\Bundle\SymfonyJSONAPIBundle\Controller\AbstractController;
 use Aristek\Bundle\SymfonyJSONAPIBundle\JsonApi\Error\ErrorDocumentFactory;
 use Aristek\Bundle\SymfonyJSONAPIBundle\Service\Filter\ResourceProvider;
@@ -48,6 +44,11 @@ class UserController extends AbstractController
     private $userHydrator;
 
     /**
+     * @var ValidatorInterface
+     */
+    private $validator;
+
+    /**
      * UserController constructor.
      *
      * @param FinderCollection     $finderCollection
@@ -57,6 +58,7 @@ class UserController extends AbstractController
      * @param UserRepository       $userRepository
      * @param UserTransformer      $userTransformer
      * @param UserHydrator         $userHydrator
+     * @param ValidatorInterface   $validator
      */
     public function __construct(
         FinderCollection $finderCollection,
@@ -65,13 +67,15 @@ class UserController extends AbstractController
         ErrorDocumentFactory $errorDocumentFactory,
         UserRepository $userRepository,
         UserTransformer $userTransformer,
-        UserHydrator $userHydrator
+        UserHydrator $userHydrator,
+        ValidatorInterface $validator
     ) {
         parent::__construct($finderCollection, $wrongFieldsLogger, $router, $errorDocumentFactory);
 
         $this->userRepository = $userRepository;
         $this->userTransformer = $userTransformer;
         $this->userHydrator = $userHydrator;
+        $this->validator = $validator;
     }
 
     /**
@@ -93,23 +97,11 @@ class UserController extends AbstractController
     /**
      * @Route("", name="users_new", methods="POST")
      *
-     * @param ValidatorInterface $validator
-     *
      * @return ResponseInterface
      */
-    public function new(ValidatorInterface $validator): ResponseInterface
+    public function new(): ResponseInterface
     {
-        $user = $this->jsonApi()->hydrate($this->userHydrator, $this->userRepository->create());
-
-        /** @var ConstraintViolationList $errors */
-        $errors = $validator->validate($user);
-        if ($errors->count()) {
-            return $this->validationErrorResponse($errors);
-        }
-
-        $this->userRepository->save($user);
-
-        return $this->jsonApi()->respond()->ok(new UserDocument($this->userTransformer, $this->router), $user);
+        return $this->edit($this->userRepository->create());
     }
 
     /**
@@ -127,24 +119,23 @@ class UserController extends AbstractController
     /**
      * @Route("/{id}", name="users_edit", methods="PATCH", requirements={"id"="\d+"})
      *
-     * @param User               $user
-     * @param ValidatorInterface $validator
+     * @param User $user
      *
      * @return ResponseInterface
      */
-    public function edit(User $user, ValidatorInterface $validator): ResponseInterface
+    public function edit(User $user): ResponseInterface
     {
         $user = $this->jsonApi()->hydrate($this->userHydrator, $user);
 
         /** @var ConstraintViolationList $errors */
-        $errors = $validator->validate($user);
-        if ($errors->count() > 0) {
+        $errors = $this->validator->validate($user);
+        if ($errors->count()) {
             return $this->validationErrorResponse($errors);
         }
 
         $this->userRepository->save($user);
 
-        return $this->jsonApi()->respond()->ok(new UserDocument($this->userTransformer, $this->router), $user);
+        return $this->show($user);
     }
 
     /**
@@ -158,33 +149,20 @@ class UserController extends AbstractController
     {
         $this->userRepository->remove($user);
 
-        return $this->jsonApi()->respond()->genericSuccess(204);
+        return $this->jsonApi()->respond()->noContent();
     }
 
     /**
      * @Route("/{id}/reset-password", methods="GET", requirements={"id"="\d+"})
      *
-     * @param User                      $user
-     * @param ErrorsFactory             $errorsFactory
-     * @param ResetPasswordErrorFactory $resetPasswordErrorFactory
-     * @param UserService               $userService
+     * @param User        $user
+     * @param UserService $userService
      *
      * @return ResponseInterface
      */
-    public function resetPassword(
-        User $user,
-        ErrorsFactory $errorsFactory,
-        ResetPasswordErrorFactory $resetPasswordErrorFactory,
-        UserService $userService
-    ): ResponseInterface {
-        try {
-            $userService->resetPassword($user);
-        } /** @noinspection PhpRedundantCatchClauseInspection */ catch (AppException $exception) {
-            return $this->jsonApi()->respond()->genericError(
-                new ResetPasswordErrorDocument($user->getId()),
-                $errorsFactory->create($resetPasswordErrorFactory, [$exception->getMessage()])
-            );
-        }
+    public function resetPassword(User $user, UserService $userService): ResponseInterface
+    {
+        $userService->resetPassword($user);
 
         return $this->jsonApi()->respond()->noContent();
     }

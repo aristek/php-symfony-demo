@@ -42,16 +42,16 @@
         },
         {
             "name": "aristek/aristek-symfony-json-api",
-            "version": "v0.0.54",
+            "version": "v0.0.55",
             "source": {
                 "type": "git",
                 "url": "git@github.com:aturchak/aristek-symfony-json-api.git",
-                "reference": "84618adbeb4959ff39c164499d81c54f36698c9a"
+                "reference": "7b3a0c8b1ce76a725e4744d79f870b6979b67c1b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aturchak/aristek-symfony-json-api/zipball/84618adbeb4959ff39c164499d81c54f36698c9a",
-                "reference": "84618adbeb4959ff39c164499d81c54f36698c9a",
+                "url": "https://api.github.com/repos/aturchak/aristek-symfony-json-api/zipball/7b3a0c8b1ce76a725e4744d79f870b6979b67c1b",
+                "reference": "7b3a0c8b1ce76a725e4744d79f870b6979b67c1b",
                 "shasum": ""
             },
             "require": {
@@ -95,7 +95,7 @@
             "license": [
                 "proprietary"
             ],
-            "time": "2019-03-28T17:59:34+00:00"
+            "time": "2019-03-29T17:38:10+00:00"
         },
         {
             "name": "doctrine/annotations",

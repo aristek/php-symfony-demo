@@ -6,6 +6,7 @@ use App\Repository\UserRepository;
 use Aristek\Bundle\ExtraBundle\Model\Traits\StatusTrait;
 use Aristek\Bundle\SymfonyJSONAPIBundle\Enum\UserRoles;
 use Aristek\Bundle\SymfonyJSONAPIBundle\Model\UserModel;
+use Aristek\Component\Util\StringHelper;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -53,6 +54,7 @@ class User extends UserModel
      */
     public function __construct()
     {
+        $this->password = StringHelper::randomPassword();
         $this->roles = [UserRoles::ROLE_USER];
     }
 
