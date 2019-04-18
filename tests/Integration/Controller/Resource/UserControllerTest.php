@@ -3,14 +3,14 @@
 namespace App\Tests\Integration\Controller\Resource;
 
 use App\Entity\User;
-use Aristek\Bundle\SymfonyJSONAPIBundle\Test\AbstractJSONAPIControllerTest;
+use Aristek\Bundle\SymfonyJSONAPIBundle\Test\AbstractControllerTest;
 
 /**
  * Class UserControllerTest
  *
  * @method User getFirstDomainObjectFixture()
  */
-class UserControllerTest extends AbstractJSONAPIControllerTest
+class UserControllerTest extends AbstractControllerTest
 {
     /**
      * @test
@@ -162,5 +162,13 @@ class UserControllerTest extends AbstractJSONAPIControllerTest
             'roles'     => ['ROLE_USER'],
             'username'  => 'admin',
         ];
+    }
+
+    /**
+     * @return string
+     */
+    protected function getDomainObjectClass(): string
+    {
+        return User::class;
     }
 }
