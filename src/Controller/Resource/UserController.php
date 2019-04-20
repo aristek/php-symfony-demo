@@ -89,7 +89,7 @@ class UserController extends AbstractController
     public function index(Request $request, ResourceProvider $resourceProvider): ResponseInterface
     {
         return $this->jsonApi()->respond()->ok(
-            new UsersDocument($this->userTransformer, $this->router),
+            new UsersDocument($this->userTransformer, $this->urlGenerator),
             $resourceProvider->getResources($request, $this->generateQuery($this->userRepository, $request))
         );
     }
@@ -113,7 +113,7 @@ class UserController extends AbstractController
      */
     public function show(User $user): ResponseInterface
     {
-        return $this->jsonApi()->respond()->ok(new UserDocument($this->userTransformer, $this->router), $user);
+        return $this->jsonApi()->respond()->ok(new UserDocument($this->userTransformer, $this->urlGenerator), $user);
     }
 
     /**
