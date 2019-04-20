@@ -18,7 +18,7 @@ class UserHydrator extends AbstractHydrator
     /**
      * @return array
      */
-    protected function getAttributes(): array
+    protected function getCommonAttributes(): array
     {
         return [
             'username',
