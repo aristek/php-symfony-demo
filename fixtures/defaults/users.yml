@@ -2,14 +2,40 @@ App\Entity\User:
     user_admin:
         username: 'admin'
         email: 'admin@aristek.test.com'
-        firstName: 'F_name'
-        lastName: 'L_name'
         password: 'userPassword'
         plainPassword: 'userPassword'
+        profile: '@profile_admin'
+        roles: ['@user_admin_role']
     user_2:
         username: 'user'
         email: 'user@aristek.test.com'
-        firstName: 'U_name'
-        lastName: 'U_name'
         password: 'userPassword'
         plainPassword: 'userPassword'
+        profile: '@profile_user_2'
+        roles: ['@user_2_role']
+
+App\Entity\Profile:
+    profile_admin:
+        user: '@user_admin'
+        firstName: 'F_name'
+        lastName: 'L_name'
+    profile_user_2:
+        user: '@user_2'
+        firstName: 'U_name'
+        lastName: 'U_name'
+
+App\Entity\UserRole:
+    user_admin_role:
+        user: '@user_admin'
+        role: '@admin'
+    user_2_role:
+        user: '@user_2'
+        role: '@user'
+
+App\Entity\Role:
+    user:
+        code: 'ROLE_USER'
+        description: 'User'
+    admin:
+        code: 'ROLE_ADMIN'
+        description: 'Admin'

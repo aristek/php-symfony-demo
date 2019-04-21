@@ -10,3 +10,4 @@
 - Add Services from Aristek Packages as Stubs at [stub directory](./stub)
 - Add CI/CD examples
 - Add Docker
+- User/Profile Proxy

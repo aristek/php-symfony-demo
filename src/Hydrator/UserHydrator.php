@@ -23,8 +23,8 @@ class UserHydrator extends AbstractHydrator
         return [
             'username',
             'email',
-            'firstName',
-            'lastName',
+//            'firstName',
+//            'lastName',
             'password',
             'passwordChangeRequired',
             'active',

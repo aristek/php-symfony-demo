@@ -51,33 +51,6 @@ class UserControllerTest extends AbstractControllerTest
     }
 
     /**
-     * @return array
-     */
-    protected function getDomainObjectFixturesArray(): array
-    {
-        return [
-            User::class => [
-                'user_admin' => [
-                    'username'      => 'admin',
-                    'email'         => 'admin@aristek.test.com',
-                    'firstName'     => 'F_name',
-                    'lastName'      => 'L_name',
-                    'password'      => 'userPassword',
-                    'plainPassword' => 'userPassword',
-                ],
-                'user_2'     => [
-                    'username'      => 'user',
-                    'email'         => 'user@aristek.test.com',
-                    'firstName'     => 'U_name',
-                    'lastName'      => 'U_name',
-                    'password'      => 'userPassword',
-                    'plainPassword' => 'userPassword',
-                ],
-            ],
-        ];
-    }
-
-    /**
      * @param string $fixtureName
      *
      * @return array
@@ -86,20 +59,24 @@ class UserControllerTest extends AbstractControllerTest
     {
         $data = [
             'user_admin' => [
-                'active'    => true,
-                'email'     => 'admin@aristek.test.com',
-                'firstName' => 'F_name',
-                'lastName'  => 'L_name',
-                'roles'     => ['ROLE_USER'],
-                'username'  => 'admin',
+                'active'            => true,
+                'email'             => 'admin@aristek.test.com',
+                'roles'             => ['ROLE_ADMIN'],
+                'username'          => 'admin',
+                'profileAttributes' => [
+                    'firstName' => 'F_name',
+                    'lastName'  => 'L_name',
+                ],
             ],
             'user_2'     => [
-                'active'    => true,
-                'email'     => 'user@aristek.test.com',
-                'firstName' => 'U_name',
-                'lastName'  => 'U_name',
-                'roles'     => ['ROLE_USER'],
-                'username'  => 'user',
+                'active'            => true,
+                'email'             => 'user@aristek.test.com',
+                'roles'             => ['ROLE_USER'],
+                'username'          => 'user',
+                'profileAttributes' => [
+                    'firstName' => 'U_name',
+                    'lastName'  => 'U_name',
+                ],
             ],
         ];
 

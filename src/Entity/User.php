@@ -4,10 +4,11 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Aristek\Bundle\ExtraBundle\Model\Traits\StatusTrait;
-use Aristek\Bundle\SymfonyJSONAPIBundle\Enum\UserRoles;
 use Aristek\Bundle\SymfonyJSONAPIBundle\Model\UserModel;
 use Aristek\Component\Util\StringHelper;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class User
@@ -17,7 +18,6 @@ use Doctrine\ORM\Mapping as ORM;
 class User extends UserModel
 {
     use StatusTrait;
-    public const ROLE_RESET_PASSWORD = 'ROLE_RESET_PASSWORD';
 
     /**
      * @var int
@@ -29,33 +29,36 @@ class User extends UserModel
     protected $id;
 
     /**
-     * @var bool
+     * @var UserRole[]
      *
-     * @ORM\Column(type="boolean")
+     * @ORM\OneToMany(targetEntity="UserRole", mappedBy="user")
      */
-    private $productionAccess = true;
+    protected $roles;
 
     /**
-     * @var string
+     * @var Profile
      *
-     * @ORM\Column(nullable=true)
+     * @ORM\OneToOne(targetEntity="Profile", mappedBy="user")
+     *
+     * @Assert\Valid()
      */
-    private $firstName;
+    private $profile;
 
     /**
-     * @var string
+     * @var Department[]
      *
-     * @ORM\Column(nullable=true)
+     * @ORM\ManyToMany(targetEntity="Department", mappedBy="users")
      */
-    private $lastName;
+    private $departments;
 
     /**
      * User constructor.
      */
     public function __construct()
     {
+        $this->departments = new ArrayCollection();
+        $this->roles = new ArrayCollection();
         $this->password = StringHelper::randomPassword();
-        $this->roles = [UserRoles::ROLE_USER];
     }
 
     /**
@@ -63,53 +66,7 @@ class User extends UserModel
      */
     public function __toString(): string
     {
-        return (string) $this->getFullName();
-    }
-
-    /**
-     * @param string|null $firstName
-     *
-     * @return User
-     */
-    public function setFirstName(?string $firstName): User
-    {
-        $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    /**
-     * Get firstName
-     *
-     * @return string|null
-     */
-    public function getFirstName(): ?string
-    {
-        return $this->firstName;
-    }
-
-    /**
-     * Set lastName
-     *
-     * @param string|null $lastName
-     *
-     * @return User
-     */
-    public function setLastName(?string $lastName): User
-    {
-        $this->lastName = $lastName;
-
-        return $this;
-    }
-
-    /**
-     * Get lastName
-     *
-     * @return string|null
-     */
-    public function getLastName(): ?string
-    {
-        return $this->lastName;
+        return (string) ($this->getFullName() ?: $this->getUsername());
     }
 
     /**
@@ -117,49 +74,108 @@ class User extends UserModel
      */
     public function getFullName(): ?string
     {
-        return trim(sprintf('%s %s', $this->getFirstName(), $this->getLastName())) ?: $this->getUsername();
+        $profile = $this->getProfile();
+
+        return $profile ? $profile->getFullName() : null;
     }
 
     /**
-     * @return bool
+     * @return Profile|null
      */
-    public function isPasswordResetOnlyAccess(): bool
+    public function getProfile(): ?Profile
     {
-        return $this->hasRole(static::ROLE_RESET_PASSWORD);
+        return $this->profile;
     }
 
     /**
-     * Set productionAccess
-     *
-     * @param boolean $productionAccess
+     * @param Profile $profile
      *
      * @return User
      */
-    public function setProductionAccess(bool $productionAccess): User
+    public function setProfile(Profile $profile): User
     {
-        $this->productionAccess = $productionAccess;
+        $this->profile = $profile;
+        $profile->setUser($this);
 
         return $this;
     }
 
     /**
-     * Get productionAccess
-     *
-     * @return boolean
+     * @return Department[]
      */
-    public function getProductionAccess(): bool
+    public function getDepartments(): array
     {
-        return $this->productionAccess;
+        return $this->departments;
     }
 
     /**
-     * @param bool $value
+     * @param Department $department
      *
-     * @return User
+     * @return $this
      */
-    public function setActive(bool $value): User
+    public function addDepartment(Department $department): User
     {
-        $this->active = $value;
+        if (!$this->departments->contains($department)) {
+            $this->departments->add($department);
+            $department->addUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Department $department
+     *
+     * @return $this
+     */
+    public function removeDepartment(Department $department): User
+    {
+        if ($this->departments->contains($department)) {
+            $this->departments->removeElement($department);
+            $department->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRoles(): array
+    {
+        $codes = [];
+        foreach ($this->roles as $userRole) {
+            if ($role = $userRole->getRole()) {
+                $codes[] = $role->getCode();
+            }
+        }
+
+        return $codes;
+    }
+
+    /**
+     * @param UserRole $userRole
+     *
+     * @return $this
+     */
+    public function addUserRole(UserRole $userRole): User
+    {
+        if (!$this->roles->contains($userRole)) {
+            $this->roles->add($userRole);
+            $userRole->setUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param UserRole $userRole
+     *
+     * @return $this
+     */
+    public function removeUserRole(UserRole $userRole): User
+    {
+        $this->roles->removeElement($userRole);
 
         return $this;
     }
