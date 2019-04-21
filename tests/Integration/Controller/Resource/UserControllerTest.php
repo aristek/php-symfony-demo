@@ -59,23 +59,45 @@ class UserControllerTest extends AbstractControllerTest
     {
         $data = [
             'user_admin' => [
-                'active'            => true,
-                'email'             => 'admin@aristek.test.com',
-                'roles'             => ['ROLE_ADMIN'],
-                'username'          => 'admin',
-                'profileAttributes' => [
-                    'firstName' => 'F_name',
-                    'lastName'  => 'L_name',
+                'active'   => true,
+                'email'    => 'admin@aristek.test.com',
+                'roles'    => ['ROLE_ADMIN'],
+                'username' => 'admin',
+            ],
+            'user_2'     => [
+                'active'   => true,
+                'email'    => 'user@aristek.test.com',
+                'roles'    => ['ROLE_USER'],
+                'username' => 'user',
+            ],
+        ];
+
+        return $data[$fixtureName];
+    }
+
+    /**
+     * @param string $fixtureName
+     *
+     * @return array
+     */
+    protected function getExpectedRelations(string $fixtureName): array
+    {
+        $fixtures = $this->getDomainObjectFixtures();
+        $data = [
+            'user_admin' => [
+                'profile' => [
+                    'data' => [
+                        'type' => 'profiles',
+                        'id'   => (string) $fixtures['user_admin']->getId(),
+                    ],
                 ],
             ],
             'user_2'     => [
-                'active'            => true,
-                'email'             => 'user@aristek.test.com',
-                'roles'             => ['ROLE_USER'],
-                'username'          => 'user',
-                'profileAttributes' => [
-                    'firstName' => 'U_name',
-                    'lastName'  => 'U_name',
+                'profile' => [
+                    'data' => [
+                        'type' => 'profiles',
+                        'id'   => (string) $fixtures['user_2']->getId(),
+                    ],
                 ],
             ],
         ];

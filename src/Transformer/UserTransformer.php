@@ -52,7 +52,7 @@ class UserTransformer extends AbstractTransformer
     public function getRelationships($user): array
     {
         return [
-            'profileAttributes' => function (User $user) {
+            'profile' => function (User $user) {
                 return ToOneRelationship::create()->setData($user->getProfile(), $this->profileTransformer);
             },
         ];

@@ -11,6 +11,16 @@ use Aristek\Bundle\SymfonyJSONAPIBundle\JsonApi\Transformer\AbstractTransformer;
 class ProfileTransformer extends AbstractTransformer
 {
     /**
+     * @param Profile $profile
+     *
+     * @return string
+     */
+    public function getId($profile): string
+    {
+        return (string) $profile->getUser()->getId();
+    }
+
+    /**
      * @return array
      */
     protected function getTransformableAttributes(): array
