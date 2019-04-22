@@ -10,6 +10,7 @@ use App\Repository\UserRepository;
 use App\Service\UserService;
 use App\Transformer\UserTransformer;
 use Aristek\Bundle\SymfonyJSONAPIBundle\Controller\AbstractController;
+use Aristek\Bundle\SymfonyJSONAPIBundle\Entity\File\File;
 use Aristek\Bundle\SymfonyJSONAPIBundle\JsonApi\Error\ErrorDocumentFactory;
 use Aristek\Bundle\SymfonyJSONAPIBundle\Service\Filter\ResourceProvider;
 use Aristek\Bundle\SymfonyJSONAPIBundle\Service\WrongFieldsLogger;
@@ -165,5 +166,18 @@ class UserController extends AbstractController
         $userService->resetPassword($user);
 
         return $this->jsonApi()->respond()->noContent();
+    }
+
+    /**
+     * @Route("/{id}.{extension}", name="users_avatar")
+     *
+     * @param File   $file
+     * @param string $extension
+     *
+     * @return void
+     */
+    public function avatar(File $file, string $extension): void
+    {
+        dd($file, $extension);
     }
 }

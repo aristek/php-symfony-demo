@@ -4,6 +4,7 @@ namespace App\Hydrator;
 
 use App\Entity\User;
 use Aristek\Bundle\SymfonyJSONAPIBundle\JsonApi\Hydrator\AbstractHydrator;
+use Aristek\Bundle\SymfonyJSONAPIBundle\Service\File\NewFileService;
 
 /**
  * Class UserHydrator
@@ -16,6 +17,11 @@ class UserHydrator extends AbstractHydrator
     protected $acceptedType = 'users';
 
     /**
+     * @var NewFileService
+     */
+    private $newFileService;
+
+    /**
      * @return array
      */
     protected function getCommonAttributes(): array
@@ -23,13 +29,25 @@ class UserHydrator extends AbstractHydrator
         return [
             'username',
             'email',
-//            'firstName',
-//            'lastName',
+            'avatar',
+            //            'firstName',
+            //            'lastName',
             'password',
             'passwordChangeRequired',
             'active',
             'passwordChangeToken',
         ];
+    }
+
+    /**
+     * @param User  $user
+     * @param array $avatar
+     *
+     * @return void
+     */
+    public function hydrateAvatar(User $user, array $avatar = []): void
+    {
+        $this->newFileService->setDataToField($user, 'avatar', $avatar);
     }
 
     /**
@@ -45,4 +63,11 @@ class UserHydrator extends AbstractHydrator
         }
     }
 
+    /**
+     * @return array
+     */
+    protected function getAttributes(): array
+    {
+        return $this->getCommonAttributes();
+    }
 }

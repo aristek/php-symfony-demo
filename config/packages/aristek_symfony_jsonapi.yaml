@@ -7,3 +7,19 @@ aristek_symfony_jsonapi:
     allow_aristek_mailer: true
     user_service_id: App\Service\UserService
     file_upload: false
+    filesystem_adapters:
+        local: { type: local }
+    filesystem_mappings:
+        flxr_image_file:
+            entity_class_name: App\Entity\User
+            property: avatar
+            path: '%kernel.project_dir%/var/uploads/user/avatars'
+            filesystem_adapter: local
+            route: { name: 'users_avatar' }
+            allowed_mime_types:
+                - 'image/png'
+                - 'image/jpeg'
+            allowed_extensions:
+                - 'png'
+                - 'jpeg'
+                - 'jpg'

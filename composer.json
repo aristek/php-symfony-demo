@@ -4,11 +4,11 @@
     "require": {
         "php": "^7.3",
         "ext-ctype": "*",
-        "ext-pdo": "*",
         "ext-iconv": "*",
         "ext-json": "*",
+        "ext-pdo": "*",
         "aristek/aristek-general": "2.0.x-dev",
-        "aristek/aristek-symfony-json-api": "^0",
+        "aristek/aristek-symfony-json-api": "dev-alis-104-files-uploads",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/doctrine-cache-bundle": "^1.2",
         "doctrine/doctrine-migrations-bundle": "^1.2",
@@ -23,7 +23,7 @@
         "symfony/yaml": "4.2.*"
     },
     "require-dev": {
-        "aristek/aristek-test": "^1",
+        "aristek/aristek-test": "dev-master",
         "harmbandstra/swagger-ui-bundle": "^4.0",
         "symfony/debug-bundle": "^4.0",
         "symfony/dotenv": "^4.0",
@@ -93,5 +93,6 @@
             "allow-contrib": false,
             "require": "4.2.*"
         }
-    }
+    },
+    "minimum-stability": "dev"
 }

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Aristek\Bundle\ExtraBundle\Model\Traits\StatusTrait;
+use Aristek\Bundle\SymfonyJSONAPIBundle\Entity\File\File;
 use Aristek\Bundle\SymfonyJSONAPIBundle\Model\UserModel;
 use Aristek\Component\Util\StringHelper;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -34,6 +35,13 @@ class User extends UserModel
      * @ORM\OneToMany(targetEntity="UserRole", mappedBy="user")
      */
     protected $roles;
+
+    /**
+     * @var File
+     *
+     * @ORM\OneToOne(targetEntity="Aristek\Bundle\SymfonyJSONAPIBundle\Entity\File\File", orphanRemoval=true)
+     */
+    private $avatar;
 
     /**
      * @var Profile
