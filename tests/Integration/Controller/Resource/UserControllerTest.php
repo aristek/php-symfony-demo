@@ -111,13 +111,16 @@ class UserControllerTest extends AbstractControllerTest
     protected function getNewRequestAttributes(): array
     {
         return [
-            'email'     => 'email@email.com',
-            'username'  => 'username',
-            'password'  => 'password',
-            'roles'     => ['ROLE_USER'],
-            'active'    => true,
-            'firstName' => 'firstName',
-            'lastName'  => 'lastName',
+            'email'             => 'email@email.com',
+            'roles'             => ['ROLE_USER'],
+            'active'            => true,
+            'username'          => 'username',
+            'password'          => 'password',
+            'profileId'         => null,
+            'profileAttributes' => [
+                'firstName' => 'firstName',
+                'lastName'  => 'lastName',
+            ],
         ];
     }
 
@@ -127,12 +130,25 @@ class UserControllerTest extends AbstractControllerTest
     protected function getNewExpectedAttributes(): array
     {
         return [
-            'active'    => true,
-            'email'     => 'email@email.com',
-            'firstName' => 'firstName',
-            'lastName'  => 'lastName',
-            'roles'     => ['ROLE_USER'],
-            'username'  => 'username',
+            'active'   => true,
+            'email'    => 'email@email.com',
+            'roles'    => ['ROLE_USER'],
+            'username' => 'username',
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function getNewExpectedRelations(): array
+    {
+        return [
+            'profile' => [
+                'data' => [
+                    'type' => 'profiles',
+                    'id'   => (string) $this->getLastIdByEntityName(User::class),
+                ],
+            ],
         ];
     }
 

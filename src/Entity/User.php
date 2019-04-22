@@ -38,7 +38,7 @@ class User extends UserModel
     /**
      * @var Profile
      *
-     * @ORM\OneToOne(targetEntity="Profile", mappedBy="user")
+     * @ORM\OneToOne(targetEntity="Profile", mappedBy="user", cascade={"all"})
      *
      * @Assert\Valid()
      */
