@@ -4,6 +4,7 @@ namespace App\Transformer;
 
 use App\Entity\User;
 use Aristek\Bundle\SymfonyJSONAPIBundle\JsonApi\Transformer\AbstractTransformer;
+use WoohooLabs\Yin\JsonApi\Schema\Relationship\ToManyRelationship;
 use WoohooLabs\Yin\JsonApi\Schema\Relationship\ToOneRelationship;
 
 /**
@@ -17,13 +18,20 @@ class UserTransformer extends AbstractTransformer
     private $profileTransformer;
 
     /**
+     * @var UserRoleTransformer
+     */
+    private $userRoleTransformer;
+
+    /**
      * UserTransformer constructor.
      *
-     * @param ProfileTransformer $profileTransformer
+     * @param ProfileTransformer  $profileTransformer
+     * @param UserRoleTransformer $userRoleTransformer
      */
-    public function __construct(ProfileTransformer $profileTransformer)
+    public function __construct(ProfileTransformer $profileTransformer, UserRoleTransformer $userRoleTransformer)
     {
         $this->profileTransformer = $profileTransformer;
+        $this->userRoleTransformer = $userRoleTransformer;
     }
 
     /**
@@ -41,7 +49,7 @@ class UserTransformer extends AbstractTransformer
      */
     protected function getTransformableAttributes(): array
     {
-        return ['active', 'email', 'roles', 'username'];
+        return ['active', 'email', 'username'];
     }
 
     /**
@@ -52,8 +60,11 @@ class UserTransformer extends AbstractTransformer
     public function getRelationships($user): array
     {
         return [
-            'profile' => function (User $user) {
+            'profile'   => function (User $user) {
                 return ToOneRelationship::create()->setData($user->getProfile(), $this->profileTransformer);
+            },
+            'userRoles' => function (User $user) {
+                return ToManyRelationship::create()->setData($user->getUserRoles(), $this->userRoleTransformer);
             },
         ];
     }

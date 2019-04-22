@@ -4,9 +4,11 @@
     "require": {
         "php": "^7.3",
         "ext-ctype": "*",
-        "ext-pdo": "*",
+        "ext-dom": "*",
         "ext-iconv": "*",
         "ext-json": "*",
+        "ext-libxml": "*",
+        "ext-pdo": "*",
         "aristek/aristek-general": "2.0.x-dev",
         "aristek/aristek-symfony-json-api": "^0",
         "doctrine/doctrine-bundle": "^1.6",

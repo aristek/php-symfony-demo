@@ -7,6 +7,7 @@ use Aristek\Bundle\ExtraBundle\Model\Traits\StatusTrait;
 use Aristek\Bundle\SymfonyJSONAPIBundle\Model\UserModel;
 use Aristek\Component\Util\StringHelper;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -31,7 +32,7 @@ class User extends UserModel
     /**
      * @var UserRole[]
      *
-     * @ORM\OneToMany(targetEntity="UserRole", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="UserRole", mappedBy="user", cascade={"all"})
      */
     protected $roles;
 
@@ -151,6 +152,29 @@ class User extends UserModel
         }
 
         return $codes;
+    }
+
+    /**
+     * @return UserRole[]|Collection
+     */
+    public function getUserRoles(): Collection
+    {
+        return $this->roles;
+    }
+
+    /**
+     * @param Collection $userRoles
+     *
+     * @return $this
+     */
+    public function setUserRoles(Collection $userRoles): User
+    {
+        $this->roles->clear();
+        foreach ($userRoles as $userRole) {
+            $this->addUserRole($userRole);
+        }
+
+        return $this;
     }
 
     /**

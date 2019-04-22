@@ -4,6 +4,7 @@ namespace App\Hydrator;
 
 use App\Entity\Profile;
 use App\Entity\User;
+use App\Entity\UserRole;
 use Aristek\Bundle\SymfonyJSONAPIBundle\Enum\HydratorEntityRelationTypeEnum;
 use Aristek\Bundle\SymfonyJSONAPIBundle\JsonApi\Hydrator\AbstractHydrator;
 use Aristek\Bundle\SymfonyJSONAPIBundle\Service\WrongFieldsLogger;
@@ -25,18 +26,28 @@ class UserHydrator extends AbstractHydrator
     private $profileHydrator;
 
     /**
+     * @var UserRoleHydrator
+     */
+    private $userRoleHydrator;
+
+    /**
      * UserHydrator constructor.
      *
-     * @param ProfileHydrator $profileHydrator
+     * @param ObjectManager     $objectManager
+     * @param WrongFieldsLogger $wrongFieldsLogger
+     * @param ProfileHydrator   $profileHydrator
+     * @param UserRoleHydrator  $userRoleHydrator
      */
     public function __construct(
         ObjectManager $objectManager,
         WrongFieldsLogger $wrongFieldsLogger,
-        ProfileHydrator $profileHydrator
+        ProfileHydrator $profileHydrator,
+        UserRoleHydrator $userRoleHydrator
     ) {
         parent::__construct($objectManager, $wrongFieldsLogger);
 
         $this->profileHydrator = $profileHydrator;
+        $this->userRoleHydrator = $userRoleHydrator;
     }
 
     /**
@@ -52,6 +63,7 @@ class UserHydrator extends AbstractHydrator
             'active',
             'passwordChangeToken',
             'profileAttributes',
+            'userRolesAttributes',
         ];
     }
 
@@ -76,15 +88,29 @@ class UserHydrator extends AbstractHydrator
      */
     protected function hydrateProfileAttributes(User $user, array $attributes = []): void
     {
-        $callback = function (Profile $profile) use ($user) {
-            $user->setProfile($profile);
-        };
         $this->hydrateChildEntity(
             $attributes,
-            $callback,
+            [$user, 'setProfile'],
             Profile::class,
             $this->profileHydrator,
             HydratorEntityRelationTypeEnum::TYPE_ONE
+        );
+    }
+
+    /**
+     * @param User  $user
+     * @param array $attributes
+     *
+     * @return void
+     */
+    protected function hydrateUserRolesAttributes(User $user, array $attributes = []): void
+    {
+        $this->hydrateChildEntity(
+            $attributes,
+            [$user, 'setUserRoles'],
+            UserRole::class,
+            $this->userRoleHydrator,
+            HydratorEntityRelationTypeEnum::TYPE_MANY
         );
     }
 }
