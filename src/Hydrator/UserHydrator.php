@@ -5,6 +5,8 @@ namespace App\Hydrator;
 use App\Entity\User;
 use Aristek\Bundle\SymfonyJSONAPIBundle\JsonApi\Hydrator\AbstractHydrator;
 use Aristek\Bundle\SymfonyJSONAPIBundle\Service\File\NewFileService;
+use Aristek\Bundle\SymfonyJSONAPIBundle\Service\WrongFieldsLogger;
+use Doctrine\Common\Persistence\ObjectManager;
 
 /**
  * Class UserHydrator
@@ -20,6 +22,23 @@ class UserHydrator extends AbstractHydrator
      * @var NewFileService
      */
     private $newFileService;
+
+    /**
+     * UserHydrator constructor.
+     *
+     * @param ObjectManager     $objectManager
+     * @param WrongFieldsLogger $wrongFieldsLogger
+     * @param NewFileService    $newFileService
+     */
+    public function __construct(
+        ObjectManager $objectManager,
+        WrongFieldsLogger $wrongFieldsLogger,
+        NewFileService $newFileService
+    ) {
+        parent::__construct($objectManager, $wrongFieldsLogger);
+
+        $this->newFileService = $newFileService;
+    }
 
     /**
      * @return array

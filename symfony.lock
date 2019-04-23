@@ -6,7 +6,7 @@
         "version": "v0.0.43"
     },
     "aristek/aristek-test": {
-        "version": "1.0.0"
+        "version": "v1.0.0"
     },
     "doctrine/annotations": {
         "version": "1.0",
@@ -93,6 +93,9 @@
     "egulias/email-validator": {
         "version": "2.1.7"
     },
+    "facebook/webdriver": {
+        "version": "1.6.0"
+    },
     "fzaninotto/faker": {
         "version": "v1.8.0"
     },
@@ -103,7 +106,7 @@
         "version": "v1.3.1"
     },
     "guzzlehttp/psr7": {
-        "version": "1.5.2"
+        "version": "1.4.2"
     },
     "harmbandstra/swagger-ui-bundle": {
         "version": "4.0.1"
@@ -150,7 +153,7 @@
         "version": "1.24.0"
     },
     "myclabs/deep-copy": {
-        "version": "1.8.1"
+        "version": "1.9.1"
     },
     "namshi/jose": {
         "version": "7.2.3"
@@ -382,6 +385,9 @@
     },
     "symfony/orm-pack": {
         "version": "v1.0.6"
+    },
+    "symfony/panther": {
+        "version": "1.0.x-dev"
     },
     "symfony/phpunit-bridge": {
         "version": "4.1",

@@ -169,7 +169,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}.{extension}", name="users_avatar")
+     * @Route("/{file}.{extension}", name="users_avatar")
      *
      * @param File   $file
      * @param string $extension

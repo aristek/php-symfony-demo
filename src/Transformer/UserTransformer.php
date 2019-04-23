@@ -4,6 +4,7 @@ namespace App\Transformer;
 
 use App\Entity\User;
 use Aristek\Bundle\SymfonyJSONAPIBundle\JsonApi\Transformer\AbstractTransformer;
+use Aristek\Bundle\SymfonyJSONAPIBundle\Service\File\NewFileService;
 use WoohooLabs\Yin\JsonApi\Schema\Relationship\ToOneRelationship;
 
 /**
@@ -11,6 +12,16 @@ use WoohooLabs\Yin\JsonApi\Schema\Relationship\ToOneRelationship;
  */
 class UserTransformer extends AbstractTransformer
 {
+    /**
+     * @var FileTransformer
+     */
+    private $fileTransformer;
+
+    /**
+     * @var NewFileService
+     */
+    private $newFileService;
+
     /**
      * @var ProfileTransformer
      */
@@ -20,9 +31,16 @@ class UserTransformer extends AbstractTransformer
      * UserTransformer constructor.
      *
      * @param ProfileTransformer $profileTransformer
+     * @param NewFileService     $newFileService
+     * @param FileTransformer    $fileTransformer
      */
-    public function __construct(ProfileTransformer $profileTransformer)
-    {
+    public function __construct(
+        ProfileTransformer $profileTransformer,
+        NewFileService $newFileService,
+        FileTransformer $fileTransformer
+    ) {
+        $this->fileTransformer = $fileTransformer;
+        $this->newFileService = $newFileService;
         $this->profileTransformer = $profileTransformer;
     }
 
@@ -41,7 +59,7 @@ class UserTransformer extends AbstractTransformer
      */
     protected function getTransformableAttributes(): array
     {
-        return ['active', 'email', 'roles', 'username'];
+        return ['active', 'avatar', 'email', 'roles', 'username'];
     }
 
     /**
@@ -56,5 +74,21 @@ class UserTransformer extends AbstractTransformer
                 return ToOneRelationship::create()->setData($user->getProfile(), $this->profileTransformer);
             },
         ];
+    }
+
+    /**
+     * @param User $user
+     *
+     * @return array|null
+     */
+    protected function transformAvatar(User $user): ?array
+    {
+        $model = $this->newFileService->getDataFromField($user, 'avatar');
+
+        if (!$model) {
+            return null;
+        }
+
+        return $this->fileTransformer->getTransformedAttributes($model);
     }
 }

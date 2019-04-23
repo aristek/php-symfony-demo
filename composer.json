@@ -23,7 +23,6 @@
         "symfony/yaml": "4.2.*"
     },
     "require-dev": {
-        "aristek/aristek-test": "dev-master",
         "harmbandstra/swagger-ui-bundle": "^4.0",
         "symfony/debug-bundle": "^4.0",
         "symfony/dotenv": "^4.0",
@@ -51,7 +50,8 @@
     ],
     "config": {
         "preferred-install": {
-            "*": "dist"
+            "*": "dist",
+            "aristek/*": "source"
         },
         "sort-packages": true
     },
@@ -93,6 +93,5 @@
             "allow-contrib": false,
             "require": "4.2.*"
         }
-    },
-    "minimum-stability": "dev"
+    }
 }

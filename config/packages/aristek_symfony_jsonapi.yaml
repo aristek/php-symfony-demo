@@ -6,11 +6,10 @@ aristek_symfony_jsonapi:
     reset_password_template: ''
     allow_aristek_mailer: true
     user_service_id: App\Service\UserService
-    file_upload: false
     filesystem_adapters:
         local: { type: local }
     filesystem_mappings:
-        flxr_image_file:
+        user_avatar_file:
             entity_class_name: App\Entity\User
             property: avatar
             path: '%kernel.project_dir%/var/uploads/user/avatars'

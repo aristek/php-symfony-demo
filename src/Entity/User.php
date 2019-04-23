@@ -21,25 +21,9 @@ class User extends UserModel
     use StatusTrait;
 
     /**
-     * @var int
-     *
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue()
-     */
-    protected $id;
-
-    /**
-     * @var UserRole[]
-     *
-     * @ORM\OneToMany(targetEntity="UserRole", mappedBy="user")
-     */
-    protected $roles;
-
-    /**
      * @var File
      *
-     * @ORM\OneToOne(targetEntity="Aristek\Bundle\SymfonyJSONAPIBundle\Entity\File\File", orphanRemoval=true)
+     * @ORM\OneToOne(targetEntity=File::class, orphanRemoval=true, cascade={"persist"})
      */
     private $avatar;
 
@@ -75,6 +59,26 @@ class User extends UserModel
     public function __toString(): string
     {
         return (string) ($this->getFullName() ?: $this->getUsername());
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getAvatar(): ?File
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * @param File $avatar
+     *
+     * @return User
+     */
+    public function setAvatar(File $avatar): User
+    {
+        $this->avatar = $avatar;
+
+        return $this;
     }
 
     /**
