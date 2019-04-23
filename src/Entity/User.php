@@ -8,6 +8,7 @@ use Aristek\Bundle\SymfonyJSONAPIBundle\Entity\File\File;
 use Aristek\Bundle\SymfonyJSONAPIBundle\Model\UserModel;
 use Aristek\Component\Util\StringHelper;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -28,9 +29,16 @@ class User extends UserModel
     private $avatar;
 
     /**
+     * @var UserRole[]
+     *
+     * @ORM\OneToMany(targetEntity="UserRole", mappedBy="user", cascade={"all"})
+     */
+    protected $roles;
+
+    /**
      * @var Profile
      *
-     * @ORM\OneToOne(targetEntity="Profile", mappedBy="user")
+     * @ORM\OneToOne(targetEntity="Profile", mappedBy="user", cascade={"all"})
      *
      * @Assert\Valid()
      */
@@ -163,6 +171,29 @@ class User extends UserModel
         }
 
         return $codes;
+    }
+
+    /**
+     * @return UserRole[]|Collection
+     */
+    public function getUserRoles(): Collection
+    {
+        return $this->roles;
+    }
+
+    /**
+     * @param Collection $userRoles
+     *
+     * @return $this
+     */
+    public function setUserRoles(Collection $userRoles): User
+    {
+        $this->roles->clear();
+        foreach ($userRoles as $userRole) {
+            $this->addUserRole($userRole);
+        }
+
+        return $this;
     }
 
     /**

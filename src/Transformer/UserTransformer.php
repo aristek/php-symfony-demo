@@ -4,6 +4,7 @@ namespace App\Transformer;
 
 use App\Entity\User;
 use Aristek\Bundle\SymfonyJSONAPIBundle\JsonApi\Transformer\AbstractTransformer;
+use WoohooLabs\Yin\JsonApi\Schema\Relationship\ToManyRelationship;
 use Aristek\Bundle\SymfonyJSONAPIBundle\Service\File\NewFileService;
 use WoohooLabs\Yin\JsonApi\Schema\Relationship\ToOneRelationship;
 
@@ -28,20 +29,28 @@ class UserTransformer extends AbstractTransformer
     private $profileTransformer;
 
     /**
+     * @var UserRoleTransformer
+     */
+    private $userRoleTransformer;
+
+    /**
      * UserTransformer constructor.
      *
-     * @param ProfileTransformer $profileTransformer
-     * @param NewFileService     $newFileService
-     * @param FileTransformer    $fileTransformer
+     * @param ProfileTransformer  $profileTransformer
+     * @param UserRoleTransformer $userRoleTransformer
+     * @param NewFileService      $newFileService
+     * @param FileTransformer     $fileTransformer
      */
     public function __construct(
         ProfileTransformer $profileTransformer,
+        UserRoleTransformer $userRoleTransformer,
         NewFileService $newFileService,
         FileTransformer $fileTransformer
     ) {
         $this->fileTransformer = $fileTransformer;
         $this->newFileService = $newFileService;
         $this->profileTransformer = $profileTransformer;
+        $this->userRoleTransformer = $userRoleTransformer;
     }
 
     /**
@@ -59,7 +68,7 @@ class UserTransformer extends AbstractTransformer
      */
     protected function getTransformableAttributes(): array
     {
-        return ['active', 'avatar', 'email', 'roles', 'username'];
+        return ['active', 'avatar', 'email', 'username'];
     }
 
     /**
@@ -70,8 +79,11 @@ class UserTransformer extends AbstractTransformer
     public function getRelationships($user): array
     {
         return [
-            'profile' => function (User $user) {
+            'profile'   => function (User $user) {
                 return ToOneRelationship::create()->setData($user->getProfile(), $this->profileTransformer);
+            },
+            'userRoles' => function (User $user) {
+                return ToManyRelationship::create()->setData($user->getUserRoles(), $this->userRoleTransformer);
             },
         ];
     }

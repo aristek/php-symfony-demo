@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Class UserRole
  *
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\UserRoleRepository")
  */
 class UserRole
 {
@@ -45,7 +45,7 @@ class UserRole
      *
      * @return UserRole
      */
-    public function setUser(User $user):UserRole
+    public function setUser(User $user): UserRole
     {
         $this->user = $user;
 
@@ -65,7 +65,7 @@ class UserRole
      *
      * @return UserRole
      */
-    public function setRole(Role $role)
+    public function setRole(Role $role): UserRole
     {
         $this->role = $role;
 

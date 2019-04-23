@@ -3,6 +3,7 @@
 namespace App\Tests\Integration\Controller\Resource;
 
 use App\Entity\User;
+use App\Entity\UserRole;
 use Aristek\Bundle\SymfonyJSONAPIBundle\Test\AbstractControllerTest;
 
 /**
@@ -61,13 +62,11 @@ class UserControllerTest extends AbstractControllerTest
             'user_admin' => [
                 'active'   => true,
                 'email'    => 'admin@aristek.test.com',
-                'roles'    => ['ROLE_ADMIN'],
                 'username' => 'admin',
             ],
             'user_2'     => [
                 'active'   => true,
                 'email'    => 'user@aristek.test.com',
-                'roles'    => ['ROLE_USER'],
                 'username' => 'user',
             ],
         ];
@@ -82,21 +81,36 @@ class UserControllerTest extends AbstractControllerTest
      */
     protected function getExpectedRelations(string $fixtureName): array
     {
-        $fixtures = $this->getDomainObjectFixtures();
         $data = [
             'user_admin' => [
-                'profile' => [
+                'profile'   => [
                     'data' => [
                         'type' => 'profiles',
-                        'id'   => (string) $fixtures['user_admin']->getId(),
+                        'id'   => (string) $this->getIdentifier($this->fixtures['user_admin']),
+                    ],
+                ],
+                'userRoles' => [
+                    'data' => [
+                        [
+                            'type' => 'userRoles',
+                            'id'   => (string) $this->getIdentifier($this->fixtures['user_admin_role']),
+                        ],
                     ],
                 ],
             ],
             'user_2'     => [
-                'profile' => [
+                'profile'   => [
                     'data' => [
                         'type' => 'profiles',
-                        'id'   => (string) $fixtures['user_2']->getId(),
+                        'id'   => (string) $this->getIdentifier($this->fixtures['user_2']),
+                    ],
+                ],
+                'userRoles' => [
+                    'data' => [
+                        [
+                            'type' => 'userRoles',
+                            'id'   => (string) $this->getIdentifier($this->fixtures['user_2_role']),
+                        ],
                     ],
                 ],
             ],
@@ -111,13 +125,26 @@ class UserControllerTest extends AbstractControllerTest
     protected function getNewRequestAttributes(): array
     {
         return [
-            'email'     => 'email@email.com',
-            'username'  => 'username',
-            'password'  => 'password',
-            'roles'     => ['ROLE_USER'],
-            'active'    => true,
-            'firstName' => 'firstName',
-            'lastName'  => 'lastName',
+            'email'               => 'email@email.com',
+            'active'              => true,
+            'username'            => 'username',
+            'password'            => 'password',
+            'profileId'           => null,
+            'profileAttributes'   => [
+                'firstName' => 'firstName',
+                'lastName'  => 'lastName',
+            ],
+            'userRoleIds'         => [null],
+            'userRolesAttributes' => [
+                [
+                    'active'         => true,
+                    'roleId'         => 'ROLE_USER',
+                    'roleAttributes' => [
+                        'code'        => 'ROLE_USER',
+                        'description' => 'User',
+                    ],
+                ],
+            ],
         ];
     }
 
@@ -127,39 +154,93 @@ class UserControllerTest extends AbstractControllerTest
     protected function getNewExpectedAttributes(): array
     {
         return [
-            'active'    => true,
-            'email'     => 'email@email.com',
-            'firstName' => 'firstName',
-            'lastName'  => 'lastName',
-            'roles'     => ['ROLE_USER'],
-            'username'  => 'username',
+            'active'   => true,
+            'email'    => 'email@email.com',
+            'username' => 'username',
         ];
     }
 
     /**
      * @return array
      */
-    protected function getEditRequestAttributes(): array
+    protected function getNewExpectedRelations(): array
     {
         return [
-            'active'    => false,
-            'firstName' => 'firstName',
-            'lastName'  => 'lastName',
+            'profile'   => [
+                'data' => [
+                    'type' => 'profiles',
+                    'id'   => (string) $this->getLastIdByEntityName(User::class),
+                ],
+            ],
+            'userRoles' => [
+                'data' => [
+                    [
+                        'type' => 'userRoles',
+                        'id'   => (string) $this->getLastIdByEntityName(UserRole::class),
+                    ],
+                ],
+            ],
         ];
     }
 
     /**
+     * @param User|object $domainObjectFixture
+     *
      * @return array
      */
-    protected function getEditExpectedAttributes(): array
+    protected function getEditRequestAttributes(object $domainObjectFixture): array
+    {
+        $identifier = (string) $this->getIdentifier($domainObjectFixture);
+
+        return [
+            'active'            => false,
+            'email'             => 'admin2@aristek.test.com',
+            'username'          => 'admin2',
+            'profileId'         => $identifier,
+            'profileAttributes' => [
+                'id'        => $identifier,
+                'firstName' => 'firstName',
+                'lastName'  => 'lastName',
+            ],
+        ];
+    }
+
+    /**
+     * @param User|object $domainObjectFixture
+     *
+     * @return array
+     */
+    protected function getEditExpectedAttributes(object $domainObjectFixture): array
     {
         return [
-            'active'    => false,
-            'email'     => 'admin@aristek.test.com',
-            'firstName' => 'firstName',
-            'lastName'  => 'lastName',
-            'roles'     => ['ROLE_USER'],
-            'username'  => 'admin',
+            'active'   => false,
+            'email'    => 'admin2@aristek.test.com',
+            'username' => 'admin2',
+        ];
+    }
+
+    /**
+     * @param User|object $domainObjectFixture
+     *
+     * @return array
+     */
+    protected function getEditExpectedRelations(object $domainObjectFixture): array
+    {
+        return [
+            'profile'   => [
+                'data' => [
+                    'type' => 'profiles',
+                    'id'   => (string) $this->getIdentifier($domainObjectFixture),
+                ],
+            ],
+            'userRoles' => [
+                'data' => [
+                    [
+                        'type' => 'userRoles',
+                        'id'   => (string) $this->getIdentifier($domainObjectFixture->getUserRoles()->first()),
+                    ],
+                ],
+            ],
         ];
     }
 
