@@ -18,7 +18,8 @@ doctrine:
         url: '%env(resolve:DATABASE_URL)%'
     orm:
         auto_generate_proxy_classes: true
-        naming_strategy: doctrine.orm.naming_strategy.underscore
+        naming_strategy: aristek_extra.orm.naming_strategy.underscore_plural
+        default_repository_class: Aristek\Bundle\ExtraBundle\ORM\AbstractServiceEntityRepository
         auto_mapping: true
         mappings:
             App:

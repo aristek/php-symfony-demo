@@ -25,6 +25,16 @@ class FileTransformer extends AbstractTransformer
      */
     protected function getTransformableAttributes(): array
     {
-        return ['id', 'name', 'url', 'size', 'mimeType'];
+        return ['id', 'name', 'original'];
+    }
+
+    /**
+     * @param UploadedFileModel $uploadedFileModel
+     *
+     * @return string
+     */
+    protected function transformId(UploadedFileModel $uploadedFileModel): string
+    {
+        return (string) $uploadedFileModel->getId();
     }
 }

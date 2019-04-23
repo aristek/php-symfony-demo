@@ -4,6 +4,7 @@ namespace App\Tests\Integration\Controller\Resource;
 
 use App\Entity\User;
 use App\Entity\UserRole;
+use Aristek\Bundle\SymfonyJSONAPIBundle\Entity\File\File;
 use Aristek\Bundle\SymfonyJSONAPIBundle\Test\AbstractControllerTest;
 
 /**
@@ -32,7 +33,7 @@ class UserControllerTest extends AbstractControllerTest
      */
     protected function getTableName(): string
     {
-        return 'user';
+        return 'users';
     }
 
     /**
@@ -58,14 +59,26 @@ class UserControllerTest extends AbstractControllerTest
      */
     protected function getExpectedAttributes(string $fixtureName): array
     {
+        $avatar1 = (string) $this->getIdentifier($this->fixtures['avatar_1']);
+        $avatar2 = (string) $this->getIdentifier($this->fixtures['avatar_2']);
         $data = [
             'user_admin' => [
                 'active'   => true,
+                'avatar'   => [
+                    'id'       => $avatar1,
+                    'name'     => 'avatar.png',
+                    'original' => sprintf('http://localhost/resources/users/%s.png', $avatar1),
+                ],
                 'email'    => 'admin@aristek.test.com',
                 'username' => 'admin',
             ],
             'user_2'     => [
                 'active'   => true,
+                'avatar'   => [
+                    'id'       => $avatar2,
+                    'name'     => 'avatar2.png',
+                    'original' => sprintf('http://localhost/resources/users/%s.png', $avatar2),
+                ],
                 'email'    => 'user@aristek.test.com',
                 'username' => 'user',
             ],
@@ -130,6 +143,12 @@ class UserControllerTest extends AbstractControllerTest
             'username'            => 'username',
             'password'            => 'password',
             'profileId'           => null,
+            'avatarData'          => [
+                'name'     => 'avatar.png',
+                'mimeType' => 'image/png',
+                'content'  => base64_encode(file_get_contents(__DIR__.'/../../../../fixtures/files/avatar.png')),
+                'size'     => 109,
+            ],
             'profileAttributes'   => [
                 'firstName' => 'firstName',
                 'lastName'  => 'lastName',
@@ -153,8 +172,15 @@ class UserControllerTest extends AbstractControllerTest
      */
     protected function getNewExpectedAttributes(): array
     {
+        $id = (string) $this->getLastIdByEntityName(File::class);
+
         return [
             'active'   => true,
+            'avatar'   => [
+                'id'       => $id,
+                'name'     => 'avatar.png',
+                'original' => sprintf('http://localhost/resources/users/%s.png', $id),
+            ],
             'email'    => 'email@email.com',
             'username' => 'username',
         ];
@@ -194,6 +220,7 @@ class UserControllerTest extends AbstractControllerTest
 
         return [
             'active'            => false,
+            'avatarData'        => [],
             'email'             => 'admin2@aristek.test.com',
             'username'          => 'admin2',
             'profileId'         => $identifier,
@@ -214,6 +241,7 @@ class UserControllerTest extends AbstractControllerTest
     {
         return [
             'active'   => false,
+            'avatar'   => null,
             'email'    => 'admin2@aristek.test.com',
             'username' => 'admin2',
         ];

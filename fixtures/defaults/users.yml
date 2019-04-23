@@ -6,6 +6,7 @@ App\Entity\User:
         plainPassword: 'userPassword'
         profile: '@profile_admin'
         roles: ['@user_admin_role']
+        avatar: '@avatar_1'
     user_2:
         username: 'user'
         email: 'user@aristek.test.com'
@@ -13,6 +14,7 @@ App\Entity\User:
         plainPassword: 'userPassword'
         profile: '@profile_user_2'
         roles: ['@user_2_role']
+        avatar: '@avatar_2'
 
 App\Entity\Profile:
     profile_admin:
@@ -39,3 +41,17 @@ App\Entity\Role:
     admin:
         code: 'ROLE_ADMIN'
         description: 'Admin'
+
+Aristek\Bundle\SymfonyJSONAPIBundle\Entity\File\File:
+    avatar_1:
+        fileSystem: 'user_avatar_file'
+        name: 'avatar.png'
+        path: '/path/to/file/13252412156323sdvgfbhewuisvbw.png'
+        size: 109
+        mimeType: image/png
+    avatar_2:
+        fileSystem: 'user_avatar_file'
+        name: 'avatar2.png'
+        path: '/path/to/file/13252412156323sdvgfbhewuisvbx.png'
+        size: 109
+        mimeType: image/png

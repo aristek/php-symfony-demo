@@ -33,7 +33,7 @@ class User extends UserModel
      *
      * @ORM\OneToMany(targetEntity="UserRole", mappedBy="user", cascade={"all"})
      */
-    protected $roles;
+    protected $userRoles;
 
     /**
      * @var Profile
@@ -57,7 +57,7 @@ class User extends UserModel
     public function __construct()
     {
         $this->departments = new ArrayCollection();
-        $this->roles = new ArrayCollection();
+        $this->userRoles = new ArrayCollection();
         $this->password = StringHelper::randomPassword();
     }
 
@@ -164,7 +164,7 @@ class User extends UserModel
     public function getRoles(): array
     {
         $codes = [];
-        foreach ($this->roles as $userRole) {
+        foreach ($this->getUserRoles() as $userRole) {
             if ($role = $userRole->getRole()) {
                 $codes[] = $role->getCode();
             }
@@ -178,7 +178,7 @@ class User extends UserModel
      */
     public function getUserRoles(): Collection
     {
-        return $this->roles;
+        return $this->userRoles;
     }
 
     /**
@@ -188,7 +188,7 @@ class User extends UserModel
      */
     public function setUserRoles(Collection $userRoles): User
     {
-        $this->roles->clear();
+        $this->userRoles->clear();
         foreach ($userRoles as $userRole) {
             $this->addUserRole($userRole);
         }
@@ -203,8 +203,8 @@ class User extends UserModel
      */
     public function addUserRole(UserRole $userRole): User
     {
-        if (!$this->roles->contains($userRole)) {
-            $this->roles->add($userRole);
+        if (!$this->userRoles->contains($userRole)) {
+            $this->userRoles->add($userRole);
             $userRole->setUser($this);
         }
 
@@ -218,7 +218,7 @@ class User extends UserModel
      */
     public function removeUserRole(UserRole $userRole): User
     {
-        $this->roles->removeElement($userRole);
+        $this->userRoles->removeElement($userRole);
 
         return $this;
     }

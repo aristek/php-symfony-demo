@@ -7,6 +7,9 @@ use App\Entity\User;
 use App\Entity\UserRole;
 use Aristek\Bundle\SymfonyJSONAPIBundle\Enum\HydratorEntityRelationTypeEnum;
 use Aristek\Bundle\SymfonyJSONAPIBundle\JsonApi\Hydrator\AbstractHydrator;
+use Aristek\Bundle\SymfonyJSONAPIBundle\Service\File\NewFileService;
+use Aristek\Bundle\SymfonyJSONAPIBundle\Service\WrongFieldsLogger;
+use Doctrine\Common\Persistence\ObjectManager;
 
 /**
  * Class UserHydrator
@@ -32,6 +35,7 @@ class UserHydrator extends AbstractHydrator
      * @var NewFileService
      */
     private $newFileService;
+
     /**
      * UserHydrator constructor.
      *
@@ -63,7 +67,7 @@ class UserHydrator extends AbstractHydrator
         return [
             'username',
             'email',
-            'avatar',
+            'avatarData',
             'password',
             'passwordChangeRequired',
             'active',
@@ -79,7 +83,7 @@ class UserHydrator extends AbstractHydrator
      *
      * @return void
      */
-    public function hydrateAvatar(User $user, array $avatar = []): void
+    public function hydrateAvatarData(User $user, array $avatar = []): void
     {
         $this->newFileService->setDataToField($user, 'avatar', $avatar);
     }
@@ -129,12 +133,5 @@ class UserHydrator extends AbstractHydrator
             $this->userRoleHydrator,
             HydratorEntityRelationTypeEnum::TYPE_MANY
         );
-    }
-    /**
-     * @return array
-     */
-    protected function getAttributes(): array
-    {
-        return $this->getCommonAttributes();
     }
 }

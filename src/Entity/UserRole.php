@@ -48,6 +48,7 @@ class UserRole
     public function setUser(User $user): UserRole
     {
         $this->user = $user;
+        $user->addUserRole($this);
 
         return $this;
     }
