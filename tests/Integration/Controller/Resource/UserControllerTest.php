@@ -247,8 +247,8 @@ class UserControllerTest extends AbstractControllerTest
                 'name'     => 'avatar.png',
                 'original' => sprintf('http://localhost/resources/users/%s.png', $avatar1),
             ],
-            'email'    => 'admin2@aristek.test.com',
-            'username' => 'admin2',
+            'email'    => 'admin@aristek.test.com',
+            'username' => 'admin',
         ];
     }
 

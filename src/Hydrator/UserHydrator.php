@@ -50,16 +50,23 @@ class UserHydrator extends AbstractHydrator
     /**
      * @return array
      */
-    protected function getCommonAttributes(): array
+    protected function getCreateAttributes(): array
     {
         return [
             'username',
             'email',
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function getCommonAttributes(): array
+    {
+        return [
             'avatar',
             'password',
-            'passwordChangeRequired',
             'active',
-            'passwordChangeToken',
             'profile',
             'userRoles',
         ];
