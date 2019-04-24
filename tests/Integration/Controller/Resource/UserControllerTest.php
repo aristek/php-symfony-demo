@@ -220,7 +220,6 @@ class UserControllerTest extends AbstractControllerTest
 
         return [
             'active'            => false,
-            'avatarData'        => [],
             'email'             => 'admin2@aristek.test.com',
             'username'          => 'admin2',
             'profileId'         => $identifier,
@@ -239,9 +238,15 @@ class UserControllerTest extends AbstractControllerTest
      */
     protected function getEditExpectedAttributes(object $domainObjectFixture): array
     {
+        $avatar1 = (string) $this->getIdentifier($this->fixtures['avatar_1']);
+
         return [
             'active'   => false,
-            'avatar'   => null,
+            'avatar'   => [
+                'id'       => $avatar1,
+                'name'     => 'avatar.png',
+                'original' => sprintf('http://localhost/resources/users/%s.png', $avatar1),
+            ],
             'email'    => 'admin2@aristek.test.com',
             'username' => 'admin2',
         ];

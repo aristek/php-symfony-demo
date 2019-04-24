@@ -2,10 +2,7 @@
 
 namespace App\Hydrator;
 
-use App\Entity\Profile;
 use App\Entity\User;
-use App\Entity\UserRole;
-use Aristek\Bundle\SymfonyJSONAPIBundle\Enum\HydratorEntityRelationTypeEnum;
 use Aristek\Bundle\SymfonyJSONAPIBundle\JsonApi\Hydrator\AbstractHydrator;
 use Aristek\Bundle\SymfonyJSONAPIBundle\Service\File\NewFileService;
 use Aristek\Bundle\SymfonyJSONAPIBundle\Service\WrongFieldsLogger;
@@ -32,18 +29,12 @@ class UserHydrator extends AbstractHydrator
     private $userRoleHydrator;
 
     /**
-     * @var NewFileService
-     */
-    private $newFileService;
-
-    /**
      * UserHydrator constructor.
      *
      * @param ObjectManager     $objectManager
      * @param WrongFieldsLogger $wrongFieldsLogger
      * @param ProfileHydrator   $profileHydrator
      * @param UserRoleHydrator  $userRoleHydrator
-     * @param NewFileService    $newFileService
      */
     public function __construct(
         ObjectManager $objectManager,
@@ -67,25 +58,25 @@ class UserHydrator extends AbstractHydrator
         return [
             'username',
             'email',
-            'avatarData',
+            'avatar',
             'password',
             'passwordChangeRequired',
             'active',
             'passwordChangeToken',
-            'profileAttributes',
-            'userRolesAttributes',
+            'profile',
+            'userRoles',
         ];
     }
 
     /**
-     * @param User  $user
-     * @param array $avatar
-     *
-     * @return void
+     * @return AbstractHydrator[]
      */
-    public function hydrateAvatarData(User $user, array $avatar = []): void
+    protected function getChildrenHydrators(): array
     {
-        $this->newFileService->setDataToField($user, 'avatar', $avatar);
+        return [
+            'profile'   => $this->profileHydrator,
+            'userRoles' => $this->userRoleHydrator,
+        ];
     }
 
     /**
@@ -99,39 +90,5 @@ class UserHydrator extends AbstractHydrator
         if ($password) {
             $user->setPlainPassword($password);
         }
-    }
-
-    /**
-     * @param User  $user
-     * @param array $attributes
-     *
-     * @return void
-     */
-    protected function hydrateProfileAttributes(User $user, array $attributes = []): void
-    {
-        $this->hydrateChildEntity(
-            $attributes,
-            [$user, 'setProfile'],
-            Profile::class,
-            $this->profileHydrator,
-            HydratorEntityRelationTypeEnum::TYPE_ONE
-        );
-    }
-
-    /**
-     * @param User  $user
-     * @param array $attributes
-     *
-     * @return void
-     */
-    protected function hydrateUserRolesAttributes(User $user, array $attributes = []): void
-    {
-        $this->hydrateChildEntity(
-            $attributes,
-            [$user, 'setUserRoles'],
-            UserRole::class,
-            $this->userRoleHydrator,
-            HydratorEntityRelationTypeEnum::TYPE_MANY
-        );
     }
 }
