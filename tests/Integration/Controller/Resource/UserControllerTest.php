@@ -228,6 +228,20 @@ class UserControllerTest extends AbstractControllerTest
                 'firstName' => 'firstName',
                 'lastName'  => 'lastName',
             ],
+            // @todo: fix next cases
+            // 'profileAttributes' => [
+            //     1, 2, 3 // should not try to do invalid insert
+            // ],
+            // 'userRolesAttributes' => [ // should delete previous role from DB
+            //     [
+            //         'active'         => true,
+            //         'roleId'         => 'ROLE_USER',
+            //         'roleAttributes' => [
+            //             'code'        => 'ROLE_USER',
+            //             'description' => 'User',
+            //         ],
+            //     ],
+            // ],
         ];
     }
 
@@ -263,14 +277,14 @@ class UserControllerTest extends AbstractControllerTest
             'profile'   => [
                 'data' => [
                     'type' => 'profiles',
-                    'id'   => (string) $this->getIdentifier($domainObjectFixture),
+                    'id'   => (string) $this->getIdentifier($this->fixtures['profile_admin']),
                 ],
             ],
             'userRoles' => [
                 'data' => [
                     [
                         'type' => 'userRoles',
-                        'id'   => (string) $this->getIdentifier($domainObjectFixture->getUserRoles()->first()),
+                        'id'   => (string) $this->getIdentifier($this->fixtures['user_admin_role']),
                     ],
                 ],
             ],
