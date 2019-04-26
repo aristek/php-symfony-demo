@@ -71,6 +71,10 @@ class UserControllerTest extends AbstractControllerTest
                 ],
                 'email'    => 'admin@aristek.test.com',
                 'username' => 'admin',
+                'profile'  => [
+                    'firstName' => 'F_name',
+                    'lastName'  => 'L_name',
+                ],
             ],
             'user_2'     => [
                 'active'   => true,
@@ -81,6 +85,10 @@ class UserControllerTest extends AbstractControllerTest
                 ],
                 'email'    => 'user@aristek.test.com',
                 'username' => 'user',
+                'profile'  => [
+                    'firstName' => 'U_name',
+                    'lastName'  => 'U_name',
+                ],
             ],
         ];
 
@@ -96,13 +104,25 @@ class UserControllerTest extends AbstractControllerTest
     {
         $data = [
             'user_admin' => [
-                'profile'   => [
+                'profile'     => [
                     'data' => [
                         'type' => 'profiles',
                         'id'   => (string) $this->getIdentifier($this->fixtures['user_admin']),
                     ],
                 ],
-                'userRoles' => [
+                'departments' => [
+                    'data' => [
+                        [
+                            'type' => 'departments',
+                            'id'   => (string) $this->getIdentifier($this->fixtures['dev']),
+                        ],
+                        [
+                            'type' => 'departments',
+                            'id'   => (string) $this->getIdentifier($this->fixtures['spt']),
+                        ],
+                    ],
+                ],
+                'userRoles'   => [
                     'data' => [
                         [
                             'type' => 'userRoles',
@@ -112,13 +132,25 @@ class UserControllerTest extends AbstractControllerTest
                 ],
             ],
             'user_2'     => [
-                'profile'   => [
+                'profile'     => [
                     'data' => [
                         'type' => 'profiles',
                         'id'   => (string) $this->getIdentifier($this->fixtures['user_2']),
                     ],
                 ],
-                'userRoles' => [
+                'departments' => [
+                    'data' => [
+                        [
+                            'type' => 'departments',
+                            'id'   => (string) $this->getIdentifier($this->fixtures['hr']),
+                        ],
+                        [
+                            'type' => 'departments',
+                            'id'   => (string) $this->getIdentifier($this->fixtures['sale']),
+                        ],
+                    ],
+                ],
+                'userRoles'   => [
                     'data' => [
                         [
                             'type' => 'userRoles',
@@ -138,32 +170,34 @@ class UserControllerTest extends AbstractControllerTest
     protected function getNewRequestAttributes(): array
     {
         return [
-            'email'               => 'email@email.com',
-            'active'              => true,
-            'username'            => 'username',
-            'password'            => 'password',
-            'profileId'           => null,
-            'avatarData'          => [
+            'email'                 => 'email@email.com',
+            'active'                => true,
+            'username'              => 'username',
+            'password'              => 'password',
+            'profileId'             => null,
+            'avatarData'            => [
                 'name'     => 'avatar.png',
                 'mimeType' => 'image/png',
                 'content'  => base64_encode(file_get_contents(__DIR__.'/../../../../fixtures/files/avatar.png')),
                 'size'     => 109,
             ],
-            'profileAttributes'   => [
+            'profileAttributes'     => [
                 'firstName' => 'firstName',
                 'lastName'  => 'lastName',
             ],
-            'userRoleIds'         => [null],
-            'userRolesAttributes' => [
+            'userRoleIds'           => [null],
+            'userRolesAttributes'   => [
                 [
-                    'active'         => true,
+                    'active'         => false,
                     'roleId'         => 'ROLE_USER',
                     'roleAttributes' => [
-                        'code'        => 'ROLE_USER',
+                        'id'          => 'ROLE_USER',
                         'description' => 'User',
                     ],
                 ],
             ],
+            'departmentIds'         => [(string) $this->getIdentifier($this->fixtures['spt'])],
+            'departmentsAttributes' => [],
         ];
     }
 
@@ -183,6 +217,10 @@ class UserControllerTest extends AbstractControllerTest
             ],
             'email'    => 'email@email.com',
             'username' => 'username',
+            'profile'  => [
+                'firstName' => 'firstName',
+                'lastName'  => 'lastName',
+            ],
         ];
     }
 
@@ -192,13 +230,21 @@ class UserControllerTest extends AbstractControllerTest
     protected function getNewExpectedRelations(): array
     {
         return [
-            'profile'   => [
+            'profile'     => [
                 'data' => [
                     'type' => 'profiles',
                     'id'   => (string) $this->getLastIdByEntityName(User::class),
                 ],
             ],
-            'userRoles' => [
+            'departments' => [
+                'data' => [
+                    [
+                        'type' => 'departments',
+                        'id'   => (string) $this->getIdentifier($this->fixtures['spt']),
+                    ],
+                ],
+            ],
+            'userRoles'   => [
                 'data' => [
                     [
                         'type' => 'userRoles',
@@ -219,29 +265,27 @@ class UserControllerTest extends AbstractControllerTest
         $identifier = (string) $this->getIdentifier($domainObjectFixture);
 
         return [
-            'active'            => false,
-            'email'             => 'admin2@aristek.test.com',
-            'username'          => 'admin2',
-            'profileId'         => $identifier,
-            'profileAttributes' => [
+            'active'              => false,
+            'email'               => 'admin2@aristek.test.com',
+            'username'            => 'admin2',
+            'profileId'           => $identifier,
+            'profileAttributes'   => [
                 'id'        => $identifier,
                 'firstName' => 'firstName',
                 'lastName'  => 'lastName',
             ],
-            // @todo: fix next cases
-            // 'profileAttributes' => [
-            //     1, 2, 3 // should not try to do invalid insert
-            // ],
-            // 'userRolesAttributes' => [ // should delete previous role from DB
-            //     [
-            //         'active'         => true,
-            //         'roleId'         => 'ROLE_USER',
-            //         'roleAttributes' => [
-            //             'code'        => 'ROLE_USER',
-            //             'description' => 'User',
-            //         ],
-            //     ],
-            // ],
+            'userRolesAttributes' => [
+                [
+                    'active'         => true,
+                    'roleId'         => 'ROLE_USER',
+                    'roleAttributes' => [
+                        'id'          => 'ROLE_USER',
+                        'description' => 'User',
+                    ],
+                ],
+            ],
+            'departmentIds'         => [(string) $this->getIdentifier($this->fixtures['sale'])],
+            'departmentsAttributes' => [],
         ];
     }
 
@@ -263,6 +307,10 @@ class UserControllerTest extends AbstractControllerTest
             ],
             'email'    => 'admin@aristek.test.com',
             'username' => 'admin',
+            'profile'  => [
+                'firstName' => 'firstName',
+                'lastName'  => 'lastName',
+            ],
         ];
     }
 
@@ -280,11 +328,19 @@ class UserControllerTest extends AbstractControllerTest
                     'id'   => (string) $this->getIdentifier($this->fixtures['profile_admin']),
                 ],
             ],
+            'departments' => [
+                'data' => [
+                    [
+                        'type' => 'departments',
+                        'id'   => (string) $this->getIdentifier($this->fixtures['sale']),
+                    ],
+                ],
+            ],
             'userRoles' => [
                 'data' => [
                     [
                         'type' => 'userRoles',
-                        'id'   => (string) $this->getIdentifier($this->fixtures['user_admin_role']),
+                        'id'   => (string) $this->getLastIdByEntityName(UserRole::class),
                     ],
                 ],
             ],

@@ -7,6 +7,7 @@ App\Entity\User:
         profile: '@profile_admin'
         roles: ['@user_admin_role']
         avatar: '@avatar_1'
+        departments: ['@dev', '@spt']
     user_2:
         username: 'user'
         email: 'user@aristek.test.com'
@@ -15,6 +16,7 @@ App\Entity\User:
         profile: '@profile_user_2'
         roles: ['@user_2_role']
         avatar: '@avatar_2'
+        departments: ['@hr', '@sale']
 
 App\Entity\Profile:
     profile_admin:
@@ -55,3 +57,13 @@ Aristek\Bundle\SymfonyJSONAPIBundle\Entity\File\File:
         path: '/path/to/file/13252412156323sdvgfbhewuisvbx.png'
         size: 109
         mimeType: image/png
+
+App\Entity\Department:
+    hr:
+        name: 'Human Resources'
+    sale:
+        name: 'Sales'
+    dev:
+        name: 'Development'
+    spt:
+        name: 'Support'

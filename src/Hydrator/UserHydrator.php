@@ -4,7 +4,6 @@ namespace App\Hydrator;
 
 use App\Entity\User;
 use Aristek\Bundle\SymfonyJSONAPIBundle\JsonApi\Hydrator\AbstractHydrator;
-use Aristek\Bundle\SymfonyJSONAPIBundle\Service\WrongFieldsLogger;
 use Doctrine\Common\Persistence\ObjectManager;
 
 /**
@@ -30,18 +29,16 @@ class UserHydrator extends AbstractHydrator
     /**
      * UserHydrator constructor.
      *
-     * @param ObjectManager     $objectManager
-     * @param WrongFieldsLogger $wrongFieldsLogger
-     * @param ProfileHydrator   $profileHydrator
-     * @param UserRoleHydrator  $userRoleHydrator
+     * @param ObjectManager    $objectManager
+     * @param ProfileHydrator  $profileHydrator
+     * @param UserRoleHydrator $userRoleHydrator
      */
     public function __construct(
         ObjectManager $objectManager,
-        WrongFieldsLogger $wrongFieldsLogger,
         ProfileHydrator $profileHydrator,
         UserRoleHydrator $userRoleHydrator
     ) {
-        parent::__construct($objectManager, $wrongFieldsLogger);
+        parent::__construct($objectManager);
 
         $this->profileHydrator = $profileHydrator;
         $this->userRoleHydrator = $userRoleHydrator;
@@ -52,10 +49,7 @@ class UserHydrator extends AbstractHydrator
      */
     protected function getCreateAttributes(): array
     {
-        return [
-            'username',
-            'email',
-        ];
+        return ['username', 'email'];
     }
 
     /**
@@ -63,13 +57,7 @@ class UserHydrator extends AbstractHydrator
      */
     protected function getCommonAttributes(): array
     {
-        return [
-            'avatar',
-            'password',
-            'active',
-            'profile',
-            'userRoles',
-        ];
+        return ['avatar', 'password', 'active', 'profile', 'userRoles', 'departments'];
     }
 
     /**

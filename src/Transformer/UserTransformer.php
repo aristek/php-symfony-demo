@@ -4,8 +4,8 @@ namespace App\Transformer;
 
 use App\Entity\User;
 use Aristek\Bundle\SymfonyJSONAPIBundle\JsonApi\Transformer\AbstractTransformer;
-use WoohooLabs\Yin\JsonApi\Schema\Relationship\ToManyRelationship;
 use Aristek\Bundle\SymfonyJSONAPIBundle\Service\File\NewFileService;
+use WoohooLabs\Yin\JsonApi\Schema\Relationship\ToManyRelationship;
 use WoohooLabs\Yin\JsonApi\Schema\Relationship\ToOneRelationship;
 
 /**
@@ -13,6 +13,11 @@ use WoohooLabs\Yin\JsonApi\Schema\Relationship\ToOneRelationship;
  */
 class UserTransformer extends AbstractTransformer
 {
+    /**
+     * @var DepartmentTransformer
+     */
+    private $departmentsTransformer;
+
     /**
      * @var FileTransformer
      */
@@ -36,17 +41,20 @@ class UserTransformer extends AbstractTransformer
     /**
      * UserTransformer constructor.
      *
-     * @param ProfileTransformer  $profileTransformer
-     * @param UserRoleTransformer $userRoleTransformer
-     * @param NewFileService      $newFileService
-     * @param FileTransformer     $fileTransformer
+     * @param DepartmentTransformer $departmentsTransformer
+     * @param FileTransformer       $fileTransformer
+     * @param NewFileService        $newFileService
+     * @param ProfileTransformer    $profileTransformer
+     * @param UserRoleTransformer   $userRoleTransformer
      */
     public function __construct(
-        ProfileTransformer $profileTransformer,
-        UserRoleTransformer $userRoleTransformer,
+        DepartmentTransformer $departmentsTransformer,
+        FileTransformer $fileTransformer,
         NewFileService $newFileService,
-        FileTransformer $fileTransformer
+        ProfileTransformer $profileTransformer,
+        UserRoleTransformer $userRoleTransformer
     ) {
+        $this->departmentsTransformer = $departmentsTransformer;
         $this->fileTransformer = $fileTransformer;
         $this->newFileService = $newFileService;
         $this->profileTransformer = $profileTransformer;
@@ -68,7 +76,7 @@ class UserTransformer extends AbstractTransformer
      */
     protected function getTransformableAttributes(): array
     {
-        return ['active', 'avatar', 'email', 'username'];
+        return ['active', 'avatar', 'email', 'username', 'profile'];
     }
 
     /**
@@ -79,12 +87,33 @@ class UserTransformer extends AbstractTransformer
     public function getRelationships($user): array
     {
         return [
-            'profile'   => function (User $user) {
+            // @todo: replace with Department example
+            'profile'     => function (User $user) {
                 return ToOneRelationship::create()->setData($user->getProfile(), $this->profileTransformer);
             },
-            'userRoles' => function (User $user) {
+            'departments' => function (User $user) {
+                return ToManyRelationship::create()->setData($user->getDepartments(), $this->departmentsTransformer);
+            },
+            'userRoles'   => function (User $user) {
                 return ToManyRelationship::create()->setData($user->getUserRoles(), $this->userRoleTransformer);
             },
+        ];
+    }
+
+    /**
+     * @param User $user
+     *
+     * @return array
+     */
+    protected function transformProfile(User $user): array
+    {
+        if (!$profile = $user->getProfile()) {
+            throw new \LogicException(sprintf('User "%s" has no profile.', $user->getId()));
+        }
+
+        return [
+            'firstName' => $profile->getFirstName(),
+            'lastName'  => $profile->getLastName(),
         ];
     }
 

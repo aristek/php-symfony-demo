@@ -133,8 +133,12 @@ class UserController extends AbstractController
         if ($errors->count()) {
             return $this->validationErrorResponse($errors);
         }
+//        dd($user->getDepartments()->first());
 
         $this->userRepository->save($user);
+        // We need to refresh Entity in case of Related Collections
+        $this->get('doctrine.orm.default_entity_manager')->refresh($user);
+//        dump($user->getDepartments()->count());die;
 
         return $this->show($user);
     }

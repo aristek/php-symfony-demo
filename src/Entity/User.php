@@ -24,16 +24,16 @@ class User extends UserModel
     /**
      * @var File
      *
-     * @ORM\OneToOne(targetEntity=File::class, orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToOne(targetEntity=File::class, orphanRemoval=true, cascade={"all"})
      */
     private $avatar;
 
     /**
      * @var UserRole[]
      *
-     * @ORM\OneToMany(targetEntity="UserRole", mappedBy="user", cascade={"all"})
+     * @ORM\OneToMany(targetEntity="UserRole", mappedBy="user", cascade={"all"}, orphanRemoval=true)
      */
-    protected $userRoles;
+    private $userRoles;
 
     /**
      * @var Profile
@@ -47,7 +47,7 @@ class User extends UserModel
     /**
      * @var Department[]
      *
-     * @ORM\ManyToMany(targetEntity="Department", mappedBy="users")
+     * @ORM\ManyToMany(targetEntity="Department", mappedBy="users", cascade={"persist"})
      */
     private $departments;
 
@@ -121,9 +121,9 @@ class User extends UserModel
     }
 
     /**
-     * @return Department[]
+     * @return Department[]|Collection
      */
-    public function getDepartments(): array
+    public function getDepartments(): Collection
     {
         return $this->departments;
     }
