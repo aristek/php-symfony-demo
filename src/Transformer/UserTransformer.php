@@ -95,9 +95,7 @@ class UserTransformer extends AbstractTransformer
      */
     protected function transformAvatar(User $user): ?array
     {
-        $model = $this->newFileService->getDataFromField($user, 'avatar');
-
-        if (!$model) {
+        if (!$model = $this->newFileService->getDataFromField($user, 'avatar')) {
             return null;
         }
 
