@@ -82,7 +82,7 @@ class User extends UserModel
      *
      * @return User
      */
-    public function setAvatar(File $avatar): User
+    public function setAvatar(?File $avatar): User
     {
         $this->avatar = $avatar;
 

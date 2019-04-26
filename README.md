@@ -1,9 +1,11 @@
 # Aristek Systems, Ltd. 
 ## Symfony Demo Project
 
-### .idea under Git
+#### .idea under Git
 [Directory based project format (.idea directory)](https://intellij-support.jetbrains.com/hc/en-us/articles/206544839)
 
+#### To Run Tests:
+[The PHPUnit Bridge](https://symfony.com/doc/current/components/phpunit_bridge.html)
 
 #### ToDo:
 - Describe [JSON API](https://github.com/aturchak/aristek-symfony-json-api/blob/master/docs/filtration/specification.md) features
