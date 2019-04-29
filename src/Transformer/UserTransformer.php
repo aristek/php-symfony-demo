@@ -4,9 +4,9 @@ namespace App\Transformer;
 
 use App\Entity\User;
 use Aristek\Bundle\SymfonyJSONAPIBundle\JsonApi\Transformer\AbstractTransformer;
-use Aristek\Bundle\SymfonyJSONAPIBundle\Service\File\NewFileService;
+use Aristek\Bundle\SymfonyJSONAPIBundle\Service\File\FileHandler;
+use LogicException;
 use WoohooLabs\Yin\JsonApi\Schema\Relationship\ToManyRelationship;
-use WoohooLabs\Yin\JsonApi\Schema\Relationship\ToOneRelationship;
 
 /**
  * Class UserTransformer
@@ -24,9 +24,9 @@ class UserTransformer extends AbstractTransformer
     private $fileTransformer;
 
     /**
-     * @var NewFileService
+     * @var FileHandler
      */
-    private $newFileService;
+    private $fileHandler;
 
     /**
      * @var ProfileTransformer
@@ -43,20 +43,20 @@ class UserTransformer extends AbstractTransformer
      *
      * @param DepartmentTransformer $departmentsTransformer
      * @param FileTransformer       $fileTransformer
-     * @param NewFileService        $newFileService
+     * @param FileHandler           $fileHandler
      * @param ProfileTransformer    $profileTransformer
      * @param UserRoleTransformer   $userRoleTransformer
      */
     public function __construct(
         DepartmentTransformer $departmentsTransformer,
         FileTransformer $fileTransformer,
-        NewFileService $newFileService,
+        FileHandler $fileHandler,
         ProfileTransformer $profileTransformer,
         UserRoleTransformer $userRoleTransformer
     ) {
         $this->departmentsTransformer = $departmentsTransformer;
         $this->fileTransformer = $fileTransformer;
-        $this->newFileService = $newFileService;
+        $this->fileHandler = $fileHandler;
         $this->profileTransformer = $profileTransformer;
         $this->userRoleTransformer = $userRoleTransformer;
     }
@@ -87,10 +87,6 @@ class UserTransformer extends AbstractTransformer
     public function getRelationships($user): array
     {
         return [
-            // @todo: replace with Department example
-            'profile'     => function (User $user) {
-                return ToOneRelationship::create()->setData($user->getProfile(), $this->profileTransformer);
-            },
             'departments' => function (User $user) {
                 return ToManyRelationship::create()->setData($user->getDepartments(), $this->departmentsTransformer);
             },
@@ -104,11 +100,13 @@ class UserTransformer extends AbstractTransformer
      * @param User $user
      *
      * @return array
+     *
+     * @throws LogicException
      */
     protected function transformProfile(User $user): array
     {
         if (!$profile = $user->getProfile()) {
-            throw new \LogicException(sprintf('User "%s" has no profile.', $user->getId()));
+            throw new LogicException(sprintf('User "%s" has no profile.', $user->getId()));
         }
 
         return [
@@ -124,7 +122,7 @@ class UserTransformer extends AbstractTransformer
      */
     protected function transformAvatar(User $user): ?array
     {
-        if (!$model = $this->newFileService->getDataFromField($user, 'avatar')) {
+        if (!$model = $this->fileHandler->getValue($user, 'avatar')) {
             return null;
         }
 

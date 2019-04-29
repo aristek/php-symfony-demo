@@ -104,12 +104,6 @@ class UserControllerTest extends AbstractControllerTest
     {
         $data = [
             'user_admin' => [
-                'profile'     => [
-                    'data' => [
-                        'type' => 'profiles',
-                        'id'   => (string) $this->getIdentifier($this->fixtures['user_admin']),
-                    ],
-                ],
                 'departments' => [
                     'data' => [
                         [
@@ -132,12 +126,6 @@ class UserControllerTest extends AbstractControllerTest
                 ],
             ],
             'user_2'     => [
-                'profile'     => [
-                    'data' => [
-                        'type' => 'profiles',
-                        'id'   => (string) $this->getIdentifier($this->fixtures['user_2']),
-                    ],
-                ],
                 'departments' => [
                     'data' => [
                         [
@@ -230,12 +218,6 @@ class UserControllerTest extends AbstractControllerTest
     protected function getNewExpectedRelations(): array
     {
         return [
-            'profile'     => [
-                'data' => [
-                    'type' => 'profiles',
-                    'id'   => (string) $this->getLastIdByEntityName(User::class),
-                ],
-            ],
             'departments' => [
                 'data' => [
                     [
@@ -322,12 +304,6 @@ class UserControllerTest extends AbstractControllerTest
     protected function getEditExpectedRelations(object $domainObjectFixture): array
     {
         return [
-            'profile'   => [
-                'data' => [
-                    'type' => 'profiles',
-                    'id'   => (string) $this->getIdentifier($this->fixtures['profile_admin']),
-                ],
-            ],
             'departments' => [
                 'data' => [
                     [
