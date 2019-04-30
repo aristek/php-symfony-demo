@@ -130,6 +130,7 @@ class UserTransformer extends AbstractTransformer
             throw new LogicException(sprintf('User "%s" has no profile.', $user->getId()));
         }
 
+        // @todo: use transformToResource
         return $this->profileTransformer->getTransformedAttributes($profile);
     }
 
