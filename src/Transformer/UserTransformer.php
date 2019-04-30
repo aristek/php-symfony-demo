@@ -72,14 +72,6 @@ class UserTransformer extends AbstractTransformer
     }
 
     /**
-     * @return array
-     */
-    protected function getTransformableAttributes(): array
-    {
-        return ['active', 'avatar', 'email', 'username', 'profile'];
-    }
-
-    /**
      * @param User $user
      *
      * @return array
@@ -97,6 +89,35 @@ class UserTransformer extends AbstractTransformer
     }
 
     /**
+     * @return AbstractTransformer[]
+     */
+    protected function getRelationshipTransformers(): array
+    {
+        return [
+            'departments' => $this->departmentsTransformer,
+            'userRoles'   => $this->userRoleTransformer,
+        ];
+    }
+
+    /**
+     * @return AbstractTransformer[]
+     */
+    protected function getChildrenTransformers(): array
+    {
+        return [
+            'profile' => $this->profileTransformer,
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function getTransformableAttributes(): array
+    {
+        return ['active', 'avatar', 'email', 'username', 'profile'];
+    }
+
+    /**
      * @param User $user
      *
      * @return array
@@ -109,10 +130,7 @@ class UserTransformer extends AbstractTransformer
             throw new LogicException(sprintf('User "%s" has no profile.', $user->getId()));
         }
 
-        return [
-            'firstName' => $profile->getFirstName(),
-            'lastName'  => $profile->getLastName(),
-        ];
+        return $this->profileTransformer->getTransformedAttributes($profile);
     }
 
     /**
