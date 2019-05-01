@@ -2,12 +2,16 @@
 
 namespace App\Entity;
 
+use App\Repository\ProfileRepository;
+use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class Profile
  *
- * @ORM\Entity(repositoryClass="App\Repository\ProfileRepository")
+ * @ORM\Entity(repositoryClass=ProfileRepository::class)
  */
 class Profile
 {
@@ -15,7 +19,7 @@ class Profile
      * @var User
      *
      * @ORM\Id
-     * @ORM\OneToOne(targetEntity="User", inversedBy="profile")
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="profile")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $user;
@@ -35,7 +39,7 @@ class Profile
     private $lastName;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(type="date", nullable=true)
      */
@@ -47,6 +51,21 @@ class Profile
      * @ORM\Column(type="text", nullable=true)
      */
     private $biography;
+
+    /**
+     * @var Contact[]
+     *
+     * @ORM\OneToMany(targetEntity=Contact::class, mappedBy="profile", cascade={"all"})
+     */
+    private $contacts;
+
+    /**
+     * Profile constructor.
+     */
+    public function __construct()
+    {
+        $this->contacts = new ArrayCollection();
+    }
 
     /**
      * @return string|null
@@ -69,7 +88,7 @@ class Profile
      *
      * @return Profile
      */
-    public function setFirstName(string $firstName)
+    public function setFirstName(string $firstName): Profile
     {
         $this->firstName = $firstName;
 
@@ -89,7 +108,7 @@ class Profile
      *
      * @return Profile
      */
-    public function setLastName(string $lastName)
+    public function setLastName(string $lastName): Profile
     {
         $this->lastName = $lastName;
 
@@ -97,19 +116,19 @@ class Profile
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getBirthDay(): \DateTime
+    public function getBirthDay(): DateTime
     {
         return $this->birthDay;
     }
 
     /**
-     * @param \DateTime $birthDay
+     * @param DateTime $birthDay
      *
      * @return Profile
      */
-    public function setBirthDay(\DateTime $birthDay)
+    public function setBirthDay(DateTime $birthDay): Profile
     {
         $this->birthDay = $birthDay;
 
@@ -129,7 +148,7 @@ class Profile
      *
      * @return Profile
      */
-    public function setBiography(string $biography)
+    public function setBiography(string $biography): Profile
     {
         $this->biography = $biography;
 
@@ -149,12 +168,32 @@ class Profile
      *
      * @return Profile
      */
-    public function setUser(User $user)
+    public function setUser(User $user): Profile
     {
         if (!$this->user) {
             $this->user = $user;
         }
 
         return $this;
+    }
+
+    /**
+     * @param Contact[] $contacts
+     *
+     * @return Profile
+     */
+    public function setContacts($contacts): Profile
+    {
+        $this->contacts = $contacts;
+
+        return $this;
+    }
+
+    /**
+     * @return Contact[]|Collection
+     */
+    public function getContacts(): Collection
+    {
+        return $this->contacts;
     }
 }

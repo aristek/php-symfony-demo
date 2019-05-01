@@ -2,29 +2,29 @@
 
 namespace App\Transformer;
 
-use App\Entity\Profile;
+use App\Entity\Contact;
 use Aristek\Bundle\SymfonyJSONAPIBundle\Transformer\AbstractTransformer;
 
 /**
- * Class UserRoleTransformer
+ * Class ContactTransformer
  */
-class UserRoleTransformer extends AbstractTransformer
+class ContactTransformer extends AbstractTransformer
 {
     /**
      * @return array
      */
     protected function getTransformableAttributes(): array
     {
-        return ['active'];
+        return ['phone', 'email'];
     }
 
     /**
-     * @param Profile $profile
+     * @param Contact $domainObject
      *
      * @return string
      */
-    public function getType($profile): string
+    public function getType($domainObject): string
     {
-        return 'userRoles';
+        return 'contacts';
     }
 }

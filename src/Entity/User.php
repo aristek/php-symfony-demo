@@ -31,14 +31,14 @@ class User extends UserModel
     /**
      * @var UserRole[]
      *
-     * @ORM\OneToMany(targetEntity="UserRole", mappedBy="user", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=UserRole::class, mappedBy="user", cascade={"all"}, orphanRemoval=true)
      */
     private $userRoles;
 
     /**
      * @var Profile
      *
-     * @ORM\OneToOne(targetEntity="Profile", mappedBy="user", cascade={"all"})
+     * @ORM\OneToOne(targetEntity=Profile::class, mappedBy="user", cascade={"all"})
      *
      * @Assert\Valid()
      */
@@ -47,7 +47,7 @@ class User extends UserModel
     /**
      * @var Department[]
      *
-     * @ORM\ManyToMany(targetEntity="Department", mappedBy="users", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity=Department::class, mappedBy="users", cascade={"persist"})
      */
     private $departments;
 

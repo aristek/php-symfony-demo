@@ -2,11 +2,7 @@
 
 namespace App\Hydrator;
 
-use App\Entity\UserRole;
-use App\Repository\RoleRepository;
-use Aristek\Bundle\SymfonyJSONAPIBundle\JsonApi\Hydrator\AbstractHydrator;
-use Aristek\Bundle\SymfonyJSONAPIBundle\Service\WrongFieldsLogger;
-use Doctrine\Common\Persistence\ObjectManager;
+use Aristek\Bundle\SymfonyJSONAPIBundle\Hydrator\AbstractHydrator;
 
 /**
  * Class UserRoleHydrator

@@ -23,10 +23,12 @@ App\Entity\Profile:
         user: '@user_admin'
         firstName: 'F_name'
         lastName: 'L_name'
+        contacts: ['@admin_work', '@admin_home']
     profile_user_2:
         user: '@user_2'
         firstName: 'U_name'
         lastName: 'U_name'
+        contacts: ['@user_2_work']
 
 App\Entity\UserRole:
     user_admin_role:
@@ -67,3 +69,17 @@ App\Entity\Department:
         name: 'Development'
     spt:
         name: 'Support'
+
+App\Entity\Contact:
+    admin_work:
+        phone: '+375 (00) 000-00-00'
+        email: 'admin@work.com'
+        profile: '@profile_admin'
+    admin_home:
+        phone: '+375 (00) 000-00-01'
+        email: 'admin@home.com'
+        profile: '@profile_admin'
+    user_2_work:
+        phone: '+375 (00) 000-00-02'
+        email: 'user@work.com'
+        profile: '@profile_user_2'

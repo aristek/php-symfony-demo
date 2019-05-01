@@ -3,7 +3,7 @@
 namespace App\Transformer;
 
 use App\Entity\Profile;
-use Aristek\Bundle\SymfonyJSONAPIBundle\JsonApi\Transformer\AbstractTransformer;
+use Aristek\Bundle\SymfonyJSONAPIBundle\Transformer\AbstractTransformer;
 
 /**
  * Class DepartmentTransformer

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\DepartmentRepository;
 use Aristek\Bundle\ExtraBundle\Model\Traits\IdTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Class Department
  *
- * @ORM\Entity(repositoryClass="App\Repository\DepartmentRepository")
+ * @ORM\Entity(repositoryClass=DepartmentRepository::class)
  */
 class Department
 {
@@ -26,7 +27,7 @@ class Department
     /**
      * @var User[]
      *
-     * @ORM\ManyToMany(targetEntity="User", inversedBy="departments")
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="departments")
      */
     private $users;
 

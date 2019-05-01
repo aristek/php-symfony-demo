@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\UserRoleRepository;
 use Aristek\Bundle\ExtraBundle\Model\Traits\IdTrait;
 use Aristek\Bundle\ExtraBundle\Model\Traits\StatusTrait;
 use Doctrine\ORM\Mapping as ORM;
@@ -9,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Class UserRole
  *
- * @ORM\Entity(repositoryClass="App\Repository\UserRoleRepository")
+ * @ORM\Entity(repositoryClass=UserRoleRepository::class)
  */
 class UserRole
 {
@@ -19,7 +20,7 @@ class UserRole
     /**
      * @var User
      *
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="roles")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="roles")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -27,7 +28,7 @@ class UserRole
     /**
      * @var Role
      *
-     * @ORM\ManyToOne(targetEntity="Role")
+     * @ORM\ManyToOne(targetEntity=Role::class)
      * @ORM\JoinColumn(name="role", nullable=false, referencedColumnName="code")
      */
     private $role;

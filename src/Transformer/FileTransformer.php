@@ -2,8 +2,8 @@
 
 namespace App\Transformer;
 
-use Aristek\Bundle\SymfonyJSONAPIBundle\JsonApi\Transformer\AbstractTransformer;
 use Aristek\Bundle\SymfonyJSONAPIBundle\Service\File\Model\UploadedFileModel;
+use Aristek\Bundle\SymfonyJSONAPIBundle\Transformer\AbstractTransformer;
 
 /**
  * Class FileTransformer
