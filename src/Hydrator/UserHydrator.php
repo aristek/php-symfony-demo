@@ -3,6 +3,7 @@
 namespace App\Hydrator;
 
 use App\Entity\User;
+use Aristek\Bundle\SymfonyJSONAPIBundle\Factory\EntityFactoryRegistry;
 use Aristek\Bundle\SymfonyJSONAPIBundle\Hydrator\AbstractHydrator;
 use Aristek\Bundle\SymfonyJSONAPIBundle\Hydrator\HydratorPropertyAccessor;
 use Aristek\Bundle\SymfonyJSONAPIBundle\Service\File\FileHandler;
@@ -32,13 +33,16 @@ class UserHydrator extends AbstractHydrator
     /**
      * UserHydrator constructor.
      *
+     * @param EntityFactoryRegistry    $registry
+     * @param FileHandler              $fileHandler
+     * @param HydratorPropertyAccessor $hydratorPropertyAccessor
      * @param ObjectManager            $objectManager
+     * @param ObjectManagerHelper      $objectManagerHelper
      * @param ProfileHydrator          $profileHydrator
      * @param UserRoleHydrator         $userRoleHydrator
-     * @param HydratorPropertyAccessor $hydratorPropertyAccessor
-     * @param FileHandler              $fileHandler
      */
     public function __construct(
+        EntityFactoryRegistry $registry,
         FileHandler $fileHandler,
         HydratorPropertyAccessor $hydratorPropertyAccessor,
         ObjectManager $objectManager,
@@ -46,7 +50,7 @@ class UserHydrator extends AbstractHydrator
         ProfileHydrator $profileHydrator,
         UserRoleHydrator $userRoleHydrator
     ) {
-        parent::__construct($fileHandler, $hydratorPropertyAccessor, $objectManager, $objectManagerHelper);
+        parent::__construct($registry, $fileHandler, $hydratorPropertyAccessor, $objectManager, $objectManagerHelper);
 
         $this->profileHydrator = $profileHydrator;
         $this->userRoleHydrator = $userRoleHydrator;

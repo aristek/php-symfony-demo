@@ -5,6 +5,7 @@ namespace App\Controller\Resource;
 use App\Document\UserDocument;
 use App\Document\UsersDocument;
 use App\Entity\User;
+use App\Factory\UserFactory;
 use App\Hydrator\UserHydrator;
 use App\Repository\UserRepository;
 use App\Service\UserService;
@@ -30,6 +31,16 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class UserController extends AbstractController
 {
     /**
+     * @var UserFactory
+     */
+    private $userFactory;
+
+    /**
+     * @var UserHydrator
+     */
+    private $userHydrator;
+
+    /**
      * @var UserRepository
      */
     private $userRepository;
@@ -38,11 +49,6 @@ class UserController extends AbstractController
      * @var UserTransformer
      */
     private $userTransformer;
-
-    /**
-     * @var UserHydrator
-     */
-    private $userHydrator;
 
     /**
      * @var ValidatorInterface
@@ -58,6 +64,7 @@ class UserController extends AbstractController
      * @param ErrorDocumentFactory $errorDocumentFactory
      * @param UserRepository       $userRepository
      * @param UserTransformer      $userTransformer
+     * @param UserFactory          $userFactory
      * @param UserHydrator         $userHydrator
      * @param ValidatorInterface   $validator
      */
@@ -68,14 +75,16 @@ class UserController extends AbstractController
         ErrorDocumentFactory $errorDocumentFactory,
         UserRepository $userRepository,
         UserTransformer $userTransformer,
+        UserFactory $userFactory,
         UserHydrator $userHydrator,
         ValidatorInterface $validator
     ) {
         parent::__construct($finderCollection, $wrongFieldsLogger, $router, $errorDocumentFactory);
 
+        $this->userFactory = $userFactory;
+        $this->userHydrator = $userHydrator;
         $this->userRepository = $userRepository;
         $this->userTransformer = $userTransformer;
-        $this->userHydrator = $userHydrator;
         $this->validator = $validator;
     }
 
@@ -102,7 +111,7 @@ class UserController extends AbstractController
      */
     public function new(): ResponseInterface
     {
-        return $this->edit($this->userRepository->create());
+        return $this->edit($this->userFactory->create());
     }
 
     /**
@@ -133,12 +142,13 @@ class UserController extends AbstractController
         if ($errors->count()) {
             return $this->validationErrorResponse($errors);
         }
-//        dd($user->getDepartments()->first());
+        //        dd($user->getDepartments()->first());
 
         $this->userRepository->save($user);
         // We need to refresh Entity in case of Related Collections
         $this->get('doctrine.orm.default_entity_manager')->refresh($user);
-//        dump($user->getDepartments()->count());die;
+
+        //        dump($user->getDepartments()->count());die;
 
         return $this->show($user);
     }

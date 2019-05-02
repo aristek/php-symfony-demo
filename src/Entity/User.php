@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Aristek\Bundle\ExtraBundle\Model\Traits\StatusTrait;
 use Aristek\Bundle\SymfonyJSONAPIBundle\Entity\File\File;
+use Aristek\Bundle\SymfonyJSONAPIBundle\Factory\EntityInterface;
 use Aristek\Bundle\SymfonyJSONAPIBundle\Model\UserModel;
 use Aristek\Component\Util\StringHelper;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -17,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
-class User extends UserModel
+class User extends UserModel implements EntityInterface
 {
     use StatusTrait;
 
