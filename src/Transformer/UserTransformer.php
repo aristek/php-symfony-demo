@@ -3,9 +3,9 @@
 namespace App\Transformer;
 
 use App\Entity\User;
-use Aristek\Bundle\SymfonyJSONAPIBundle\Service\File\FileHandler;
-use Aristek\Bundle\SymfonyJSONAPIBundle\Service\ObjectManagerHelper;
-use Aristek\Bundle\SymfonyJSONAPIBundle\Transformer\AbstractTransformer;
+use Aristek\Bundle\JSONAPIBundle\Service\File\FileHandler;
+use Aristek\Bundle\JSONAPIBundle\Service\ObjectManagerHelper;
+use Aristek\Bundle\JSONAPIBundle\Transformer\AbstractTransformer;
 use Doctrine\Common\Persistence\ObjectManager;
 use LogicException;
 use WoohooLabs\Yin\JsonApi\Exception\ExceptionFactoryInterface;
@@ -104,35 +104,6 @@ class UserTransformer extends AbstractTransformer
     public function getType($user): string
     {
         return 'users';
-    }
-
-    /**
-     * @param User $user
-     *
-     * @return array
-     */
-    public function getRelationships($user): array
-    {
-        return [
-            'departments'     => function (User $user) {
-                return ToManyRelationship::create()->setData($user->getDepartments(), $this->departmentsTransformer);
-            },
-            'userRoles'       => function (User $user) {
-                return ToManyRelationship::create()->setData($user->getUserRoles(), $this->userRoleTransformer);
-            },
-            // would be converted from ".[lower]" into "[upper]"
-//            'profileContacts' => function (User $user) {
-//                //            dd(func_get_args());
-//                if (!$profile = $user->getProfile()) {
-//                    return null;
-//                }
-//
-//                return ToManyRelationship::create()->setData(
-//                    $profile->getContacts(),
-//                    $this->contactTransformer
-//                );
-//            },
-        ];
     }
 
     /**

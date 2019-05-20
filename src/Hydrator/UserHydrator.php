@@ -3,11 +3,11 @@
 namespace App\Hydrator;
 
 use App\Entity\User;
-use Aristek\Bundle\SymfonyJSONAPIBundle\Factory\EntityFactoryRegistry;
-use Aristek\Bundle\SymfonyJSONAPIBundle\Hydrator\AbstractHydrator;
-use Aristek\Bundle\SymfonyJSONAPIBundle\Hydrator\HydratorPropertyAccessor;
-use Aristek\Bundle\SymfonyJSONAPIBundle\Service\File\FileHandler;
-use Aristek\Bundle\SymfonyJSONAPIBundle\Service\ObjectManagerHelper;
+use Aristek\Bundle\JSONAPIBundle\Factory\EntityFactoryRegistry;
+use Aristek\Bundle\JSONAPIBundle\Hydrator\AbstractHydrator;
+use Aristek\Bundle\JSONAPIBundle\Hydrator\HydratorPropertyAccessor;
+use Aristek\Bundle\JSONAPIBundle\Service\File\FileHandler;
+use Aristek\Bundle\JSONAPIBundle\Service\ObjectManagerHelper;
 use Doctrine\Common\Persistence\ObjectManager;
 
 /**

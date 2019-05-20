@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Entity\User;
 use App\Service\Synchronization\UserSynchronization;
 use Aristek\Bundle\ExtraBundle\Model\UserInterface;
-use Aristek\Bundle\SymfonyJSONAPIBundle\Repository\UserRepository as BaseUserRepository;
+use Aristek\Bundle\JSONAPIBundle\Repository\UserRepository as BaseUserRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 

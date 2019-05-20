@@ -28,8 +28,8 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
-            SymfonyJSONAPIBundle:
+            JSONAPIBundle:
                 is_bundle: false
                 type: yml
-                dir: '%kernel.project_dir%/vendor/aristek/aristek-symfony-json-api/Bundle/SymfonyJSONAPIBundle/Resources/config/doctrine'
-                prefix: 'Aristek\Bundle\SymfonyJSONAPIBundle\Model'
+                dir: '%kernel.project_dir%/vendor/aristek/aristek-symfony-json-api/Bundle/JSONAPIBundle/Resources/config/doctrine'
+                prefix: 'Aristek\Bundle\JSONAPIBundle\Model'

@@ -2,7 +2,7 @@
 
 namespace App\Hydrator;
 
-use Aristek\Bundle\SymfonyJSONAPIBundle\Hydrator\AbstractHydrator;
+use Aristek\Bundle\JSONAPIBundle\Hydrator\AbstractHydrator;
 
 /**
  * Class UserRoleHydrator

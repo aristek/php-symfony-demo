@@ -4,9 +4,9 @@ namespace App\Service;
 
 use App\Repository\UserRepository;
 use Aristek\Bundle\ExtraBundle\Exception\AppException;
-use Aristek\Bundle\SymfonyJSONAPIBundle\API\APIUserData;
-use Aristek\Bundle\SymfonyJSONAPIBundle\Model\UserInterface;
-use Aristek\Bundle\SymfonyJSONAPIBundle\Service\User\UserServiceInterface;
+use Aristek\Bundle\JSONAPIBundle\API\APIUserData;
+use Aristek\Bundle\JSONAPIBundle\Model\UserInterface;
+use Aristek\Bundle\JSONAPIBundle\Service\User\UserServiceInterface;
 use Aristek\Component\Util\StringHelper;
 
 /**

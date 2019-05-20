@@ -2,7 +2,7 @@
 
 namespace App\Document;
 
-use Aristek\Bundle\SymfonyJSONAPIBundle\JsonApi\Document\AbstractSingleResourceDocument;
+use Aristek\Bundle\JSONAPIBundle\JsonApi\Document\AbstractSingleResourceDocument;
 use WoohooLabs\Yin\JsonApi\Schema\Link\Link;
 use WoohooLabs\Yin\JsonApi\Schema\Links;
 

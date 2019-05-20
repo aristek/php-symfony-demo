@@ -3,8 +3,8 @@
 namespace App\Transformer;
 
 use App\Entity\Profile;
-use Aristek\Bundle\SymfonyJSONAPIBundle\Service\ObjectManagerHelper;
-use Aristek\Bundle\SymfonyJSONAPIBundle\Transformer\AbstractTransformer;
+use Aristek\Bundle\JSONAPIBundle\Service\ObjectManagerHelper;
+use Aristek\Bundle\JSONAPIBundle\Transformer\AbstractTransformer;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
 use WoohooLabs\Yin\JsonApi\Schema\Relationship\ToManyRelationship;
@@ -34,16 +34,6 @@ class ProfileTransformer extends AbstractTransformer
         parent::__construct($objectManager, $objectManagerHelper);
 
         $this->contactTransformer = $contactTransformer;
-    }
-
-    /**
-     * @param Profile $profile
-     *
-     * @return string
-     */
-    public function getId($profile): string
-    {
-        return (string) $profile->getUser()->getId();
     }
 
     /**

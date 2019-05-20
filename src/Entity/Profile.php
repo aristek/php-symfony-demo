@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ProfileRepository;
-use Aristek\Bundle\SymfonyJSONAPIBundle\Factory\EntityInterface;
+use Aristek\Bundle\JSONAPIBundle\Factory\EntityInterface;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

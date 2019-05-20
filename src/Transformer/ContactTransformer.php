@@ -3,7 +3,7 @@
 namespace App\Transformer;
 
 use App\Entity\Contact;
-use Aristek\Bundle\SymfonyJSONAPIBundle\Transformer\AbstractTransformer;
+use Aristek\Bundle\JSONAPIBundle\Transformer\AbstractTransformer;
 
 /**
  * Class ContactTransformer

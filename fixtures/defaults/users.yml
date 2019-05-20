@@ -46,7 +46,7 @@ App\Entity\Role:
         code: 'ROLE_ADMIN'
         description: 'Admin'
 
-Aristek\Bundle\SymfonyJSONAPIBundle\Entity\File\File:
+Aristek\Bundle\JSONAPIBundle\Entity\File\File:
     avatar_1:
         fileSystem: 'user_avatar_file'
         name: 'avatar.png'

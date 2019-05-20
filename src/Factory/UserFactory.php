@@ -3,8 +3,8 @@
 namespace App\Factory;
 
 use App\Entity\User;
-use Aristek\Bundle\SymfonyJSONAPIBundle\Factory\EntityFactoryInterface;
-use Aristek\Bundle\SymfonyJSONAPIBundle\Factory\EntityInterface;
+use Aristek\Bundle\JSONAPIBundle\Factory\EntityFactoryInterface;
+use Aristek\Bundle\JSONAPIBundle\Factory\EntityInterface;
 
 /**
  * Class UserFactory

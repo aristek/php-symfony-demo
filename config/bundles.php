@@ -3,7 +3,7 @@
 return [
     Aristek\Bundle\ExtraBundle\AristekExtraBundle::class                       => ['all' => true],
     Aristek\Bundle\MailerBundle\AristekMailerBundle::class                     => ['all' => true],
-    Aristek\Bundle\SymfonyJSONAPIBundle\AristekSymfonyJSONAPIBundle::class     => ['all' => true],
+    Aristek\Bundle\JSONAPIBundle\AristekJSONAPIBundle::class                   => ['all' => true],
     Aristek\Bundle\TestBundle\AristekTestBundle::class                         => ['all' => true],
     Doctrine\Bundle\DoctrineBundle\DoctrineBundle::class                       => ['all' => true],
     Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle::class             => ['all' => true],

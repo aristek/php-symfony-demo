@@ -4,9 +4,9 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Aristek\Bundle\ExtraBundle\Model\Traits\StatusTrait;
-use Aristek\Bundle\SymfonyJSONAPIBundle\Entity\File\File;
-use Aristek\Bundle\SymfonyJSONAPIBundle\Factory\EntityInterface;
-use Aristek\Bundle\SymfonyJSONAPIBundle\Model\UserModel;
+use Aristek\Bundle\JSONAPIBundle\Entity\File\File;
+use Aristek\Bundle\JSONAPIBundle\Factory\EntityInterface;
+use Aristek\Bundle\JSONAPIBundle\Model\UserModel;
 use Aristek\Component\Util\StringHelper;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

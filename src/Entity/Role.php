@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use Aristek\Bundle\SymfonyJSONAPIBundle\Enum\UserRoles;
+use Aristek\Bundle\JSONAPIBundle\Enum\UserRoles;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;

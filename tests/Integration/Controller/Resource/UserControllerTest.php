@@ -4,8 +4,8 @@ namespace App\Tests\Integration\Controller\Resource;
 
 use App\Entity\User;
 use App\Entity\UserRole;
-use Aristek\Bundle\SymfonyJSONAPIBundle\Entity\File\File;
-use Aristek\Bundle\SymfonyJSONAPIBundle\Test\AbstractControllerTest;
+use Aristek\Bundle\JSONAPIBundle\Entity\File\File;
+use Aristek\Bundle\JSONAPIBundle\Test\AbstractControllerTest;
 
 /**
  * Class UserControllerTest
@@ -26,6 +26,14 @@ class UserControllerTest extends AbstractControllerTest
         $this->client->request('GET', sprintf('/resources/users/%s/reset-password', $admin->getId()));
         $this->assertEquals(204, $this->client->getResponse()->getStatusCode());
         $this->assertNotEquals($oldPassword, $admin->getPassword());
+    }
+
+    /**
+     * @return array
+     */
+    protected function getIncludeParams(): array
+    {
+        return ['profile.contacts'];
     }
 
     /**
@@ -124,6 +132,20 @@ class UserControllerTest extends AbstractControllerTest
                         ],
                     ],
                 ],
+                'profile'     => [
+                    'contacts' => [
+                        'data' => [
+                            [
+                                'type' => 'contacts',
+                                'id'   => (string) $this->getIdentifier($this->fixtures['admin_work']),
+                            ],
+                            [
+                                'type' => 'contacts',
+                                'id'   => (string) $this->getIdentifier($this->fixtures['admin_home']),
+                            ],
+                        ],
+                    ],
+                ],
             ],
             'user_2'     => [
                 'departments' => [
@@ -146,10 +168,53 @@ class UserControllerTest extends AbstractControllerTest
                         ],
                     ],
                 ],
+                'profile'     => [
+                    'contacts' => [
+                        'data' => [
+                            [
+                                'type' => 'contacts',
+                                'id'   => (string) $this->getIdentifier($this->fixtures['user_2_work']),
+                            ],
+                        ],
+                    ],
+                ],
             ],
         ];
 
         return $data[$fixtureName];
+    }
+
+    /**
+     * @return array
+     */
+    protected function getIncluded(): array
+    {
+        return [
+            [
+                'type'       => 'contacts',
+                'id'         => (string) $this->getIdentifier($this->fixtures['admin_work']),
+                'attributes' => [
+                    'phone' => '+375 (00) 000-00-00',
+                    'email' => 'admin@work.com',
+                ],
+            ],
+            [
+                'type'       => 'contacts',
+                'id'         => (string) $this->getIdentifier($this->fixtures['admin_home']),
+                'attributes' => [
+                    'phone' => '+375 (00) 000-00-01',
+                    'email' => 'admin@home.com',
+                ],
+            ],
+            [
+                'type'       => 'contacts',
+                'id'         => (string) $this->getIdentifier($this->fixtures['user_2_work']),
+                'attributes' => [
+                    'phone' => '+375 (00) 000-00-02',
+                    'email' => 'user@work.com',
+                ],
+            ],
+        ];
     }
 
     /**
@@ -247,16 +312,16 @@ class UserControllerTest extends AbstractControllerTest
         $identifier = (string) $this->getIdentifier($domainObjectFixture);
 
         return [
-            'active'              => false,
-            'email'               => 'admin2@aristek.test.com',
-            'username'            => 'admin2',
-            'profileId'           => $identifier,
-            'profileAttributes'   => [
+            'active'                => false,
+            'email'                 => 'admin2@aristek.test.com',
+            'username'              => 'admin2',
+            'profileId'             => $identifier,
+            'profileAttributes'     => [
                 'id'        => $identifier,
                 'firstName' => 'firstName',
                 'lastName'  => 'lastName',
             ],
-            'userRolesAttributes' => [
+            'userRolesAttributes'   => [
                 [
                     'active'         => true,
                     'roleId'         => 'ROLE_USER',
@@ -312,7 +377,7 @@ class UserControllerTest extends AbstractControllerTest
                     ],
                 ],
             ],
-            'userRoles' => [
+            'userRoles'   => [
                 'data' => [
                     [
                         'type' => 'userRoles',
