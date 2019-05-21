@@ -16,7 +16,7 @@ class UserTransformer extends AbstractTransformer
     /**
      * @var DepartmentTransformer
      */
-    private $departmentsTransformer;
+    private $departmentTransformer;
 
     /**
      * @var ProfileTransformer
@@ -31,7 +31,7 @@ class UserTransformer extends AbstractTransformer
     /**
      * UserTransformer constructor.
      *
-     * @param DepartmentTransformer $departmentsTransformer
+     * @param DepartmentTransformer $departmentTransformer
      * @param ObjectManager         $objectManager
      * @param ObjectManagerHelper   $objectManagerHelper
      * @param ProfileTransformer    $profileTransformer
@@ -39,7 +39,7 @@ class UserTransformer extends AbstractTransformer
      * @param FileHandler           $fileHandler
      */
     public function __construct(
-        DepartmentTransformer $departmentsTransformer,
+        DepartmentTransformer $departmentTransformer,
         FileHandler $fileHandler,
         ObjectManager $objectManager,
         ObjectManagerHelper $objectManagerHelper,
@@ -48,7 +48,7 @@ class UserTransformer extends AbstractTransformer
     ) {
         parent::__construct($fileHandler, $objectManager, $objectManagerHelper);
 
-        $this->departmentsTransformer = $departmentsTransformer;
+        $this->departmentTransformer = $departmentTransformer;
         $this->profileTransformer = $profileTransformer;
         $this->userRoleTransformer = $userRoleTransformer;
     }
@@ -69,7 +69,7 @@ class UserTransformer extends AbstractTransformer
     protected function getRelationshipTransformers(): array
     {
         return [
-            'departments' => $this->departmentsTransformer,
+            'departments' => $this->departmentTransformer,
             'userRoles'   => $this->userRoleTransformer,
         ];
     }
