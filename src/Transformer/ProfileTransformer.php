@@ -3,11 +3,10 @@
 namespace App\Transformer;
 
 use App\Entity\Profile;
+use Aristek\Bundle\JSONAPIBundle\Service\File\FileHandler;
 use Aristek\Bundle\JSONAPIBundle\Service\ObjectManagerHelper;
 use Aristek\Bundle\JSONAPIBundle\Transformer\AbstractTransformer;
 use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\ORM\EntityManager;
-use WoohooLabs\Yin\JsonApi\Schema\Relationship\ToManyRelationship;
 
 /**
  * Class ProfileTransformer
@@ -23,15 +22,17 @@ class ProfileTransformer extends AbstractTransformer
      * ProfileTransformer constructor.
      *
      * @param ContactTransformer  $contactTransformer
-     * @param EntityManager       $objectManager
+     * @param FileHandler         $fileHandler
+     * @param ObjectManager       $objectManager
      * @param ObjectManagerHelper $objectManagerHelper
      */
     public function __construct(
         ContactTransformer $contactTransformer,
+        FileHandler $fileHandler,
         ObjectManager $objectManager,
         ObjectManagerHelper $objectManagerHelper
     ) {
-        parent::__construct($objectManager, $objectManagerHelper);
+        parent::__construct($fileHandler, $objectManager, $objectManagerHelper);
 
         $this->contactTransformer = $contactTransformer;
     }
@@ -45,17 +46,11 @@ class ProfileTransformer extends AbstractTransformer
     }
 
     /**
-     * @param Profile $profile
-     *
-     * @return array
+     * @return AbstractTransformer[]
      */
-    public function getRelationships($profile): array
+    protected function getRelationshipTransformers(): array
     {
-        return [
-            'contacts' => function (Profile $profile) {
-                return ToManyRelationship::create()->setData($profile->getContacts(), $this->contactTransformer);
-            },
-        ];
+        return ['contacts' => $this->contactTransformer];
     }
 
     /**

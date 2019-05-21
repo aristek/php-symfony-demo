@@ -1,29 +1,30 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "bc9fba2e279a5962386efd7d7073b87a",
+    "content-hash": "a5b8395304aa99abbe8c2e0aa963cd37",
     "packages": [
         {
             "name": "aristek/aristek-general",
-            "version": "2.0.x-dev",
+            "version": "3.0.x-dev",
             "source": {
                 "type": "git",
                 "url": "git@github.com:aturchak/aristek-general.git",
-                "reference": "884270e57c4e90e25e27ec2e7678948b7a2afae6"
+                "reference": "6b20dabca43bbadee3a4223766bf18b4871811d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aturchak/aristek-general/zipball/884270e57c4e90e25e27ec2e7678948b7a2afae6",
-                "reference": "884270e57c4e90e25e27ec2e7678948b7a2afae6",
+                "url": "https://api.github.com/repos/aturchak/aristek-general/zipball/6b20dabca43bbadee3a4223766bf18b4871811d7",
+                "reference": "6b20dabca43bbadee3a4223766bf18b4871811d7",
                 "shasum": ""
             },
             "require": {
                 "doctrine/orm": ">=2.4",
                 "php": "^7.0",
                 "sensio/framework-extra-bundle": ">=3.0.2",
+                "soundasleep/html2text": "~1.1",
                 "symfony/form": ">=2.8",
                 "symfony/framework-bundle": ">=2.8",
                 "symfony/monolog-bridge": ">=2.8",
@@ -38,20 +39,20 @@
             "license": [
                 "proprietary"
             ],
-            "time": "2019-04-22T10:24:18+00:00"
+            "time": "2019-05-21T17:43:50+00:00"
         },
         {
             "name": "aristek/aristek-symfony-json-api",
-            "version": "dev-alis-104-files-uploads",
+            "version": "dev-new-abstract-transformer",
             "source": {
                 "type": "git",
                 "url": "git@github.com:aturchak/aristek-symfony-json-api.git",
-                "reference": "a950be63910a30b21448993799092629cacbe2f6"
+                "reference": "75c1bf86832608ae86a7f589f8aedb8a2a49356a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aturchak/aristek-symfony-json-api/zipball/a950be63910a30b21448993799092629cacbe2f6",
-                "reference": "a950be63910a30b21448993799092629cacbe2f6",
+                "url": "https://api.github.com/repos/aturchak/aristek-symfony-json-api/zipball/75c1bf86832608ae86a7f589f8aedb8a2a49356a",
+                "reference": "75c1bf86832608ae86a7f589f8aedb8a2a49356a",
                 "shasum": ""
             },
             "require": {
@@ -98,7 +99,7 @@
             "license": [
                 "proprietary"
             ],
-            "time": "2019-04-23T09:02:17+00:00"
+            "time": "2019-05-21T17:38:48+00:00"
         },
         {
             "name": "aristek/aristek-test",
@@ -3439,6 +3440,56 @@
                 "symfony"
             ],
             "time": "2019-02-20T07:03:43+00:00"
+        },
+        {
+            "name": "soundasleep/html2text",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/soundasleep/html2text.git",
+                "reference": "3243a7107878a61685d2eccf99918d6479e039fc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/soundasleep/html2text/zipball/3243a7107878a61685d2eccf99918d6479e039fc",
+                "reference": "3243a7107878a61685d2eccf99918d6479e039fc",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-libxml": "*",
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~7.0",
+                "soundasleep/component-tests": "~0.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Soundasleep\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jevon Wright",
+                    "homepage": "https://jevon.org",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A PHP script to convert HTML into a plain text format",
+            "homepage": "https://github.com/soundasleep/html2text",
+            "keywords": [
+                "email",
+                "html",
+                "php",
+                "text"
+            ],
+            "time": "2019-02-15T01:44:54+00:00"
         },
         {
             "name": "swagger-api/swagger-ui",
@@ -7378,8 +7429,11 @@
     "platform": {
         "php": "^7.3",
         "ext-ctype": "*",
+        "ext-dom": "*",
         "ext-iconv": "*",
+        "ext-fileinfo": "*",
         "ext-json": "*",
+        "ext-libxml": "*",
         "ext-pdo": "*"
     },
     "platform-dev": []

@@ -4,7 +4,6 @@ namespace App\Factory;
 
 use App\Entity\User;
 use Aristek\Bundle\JSONAPIBundle\Factory\EntityFactoryInterface;
-use Aristek\Bundle\JSONAPIBundle\Factory\EntityInterface;
 
 /**
  * Class UserFactory
@@ -12,9 +11,9 @@ use Aristek\Bundle\JSONAPIBundle\Factory\EntityInterface;
 class UserFactory implements EntityFactoryInterface
 {
     /**
-     * @return EntityInterface|User
+     * @return User
      */
-    public function create(): EntityInterface
+    public function create(): object
     {
         return new User();
     }

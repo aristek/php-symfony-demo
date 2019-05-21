@@ -252,6 +252,9 @@
             "config/packages/snc_redis.yaml"
         ]
     },
+    "soundasleep/html2text": {
+        "version": "1.1.0"
+    },
     "swagger-api/swagger-ui": {
         "version": "v3.21.0"
     },

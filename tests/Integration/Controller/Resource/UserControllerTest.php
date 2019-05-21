@@ -76,6 +76,8 @@ class UserControllerTest extends AbstractControllerTest
                     'id'       => $avatar1,
                     'name'     => 'avatar.png',
                     'original' => sprintf('http://localhost/resources/users/%s.png', $avatar1),
+                    'size'     => 109,
+                    'mimeType' => 'image/png',
                 ],
                 'email'    => 'admin@aristek.test.com',
                 'username' => 'admin',
@@ -90,6 +92,8 @@ class UserControllerTest extends AbstractControllerTest
                     'id'       => $avatar2,
                     'name'     => 'avatar2.png',
                     'original' => sprintf('http://localhost/resources/users/%s.png', $avatar2),
+                    'size'     => 109,
+                    'mimeType' => 'image/png',
                 ],
                 'email'    => 'user@aristek.test.com',
                 'username' => 'user',
@@ -299,6 +303,7 @@ class UserControllerTest extends AbstractControllerTest
                     ],
                 ],
             ],
+            'profile'     => ['contacts' => ['data' => []]],
         ];
     }
 
@@ -382,6 +387,20 @@ class UserControllerTest extends AbstractControllerTest
                     [
                         'type' => 'userRoles',
                         'id'   => (string) $this->getLastIdByEntityName(UserRole::class),
+                    ],
+                ],
+            ],
+            'profile'     => [
+                'contacts' => [
+                    'data' => [
+                        [
+                            'type' => 'contacts',
+                            'id'   => (string) $this->getIdentifier($this->fixtures['admin_work']),
+                        ],
+                        [
+                            'type' => 'contacts',
+                            'id'   => (string) $this->getIdentifier($this->fixtures['admin_home']),
+                        ],
                     ],
                 ],
             ],
