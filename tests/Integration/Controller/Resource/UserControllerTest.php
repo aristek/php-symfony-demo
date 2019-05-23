@@ -84,6 +84,7 @@ class UserControllerTest extends AbstractControllerTest
                 'profile'  => [
                     'firstName' => 'F_name',
                     'lastName'  => 'L_name',
+                    'birthDay'  => '2000-01-01T00:00:00+03:00',
                 ],
             ],
             'user_2'     => [
@@ -100,6 +101,7 @@ class UserControllerTest extends AbstractControllerTest
                 'profile'  => [
                     'firstName' => 'U_name',
                     'lastName'  => 'U_name',
+                    'birthDay'  => '2000-10-01T00:00:00+04:00',
                 ],
             ],
         ];
@@ -362,6 +364,7 @@ class UserControllerTest extends AbstractControllerTest
             'profile'  => [
                 'firstName' => 'firstName',
                 'lastName'  => 'lastName',
+                'birthDay'  => '2000-01-01T00:00:00+04:00',
             ],
         ];
     }

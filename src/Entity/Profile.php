@@ -118,7 +118,7 @@ class Profile
     /**
      * @return DateTime
      */
-    public function getBirthDay(): DateTime
+    public function getBirthDay(): ?DateTime
     {
         return $this->birthDay;
     }
@@ -138,7 +138,7 @@ class Profile
     /**
      * @return string
      */
-    public function getBiography(): string
+    public function getBiography(): ?string
     {
         return $this->biography;
     }

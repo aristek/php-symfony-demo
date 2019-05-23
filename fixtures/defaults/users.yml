@@ -24,11 +24,13 @@ App\Entity\Profile:
         firstName: 'F_name'
         lastName: 'L_name'
         contacts: ['@admin_work', '@admin_home']
+        birthDay: '<(new DateTime("2000-01-01"))>'
     profile_user_2:
         user: '@user_2'
         firstName: 'U_name'
         lastName: 'U_name'
         contacts: ['@user_2_work']
+        birthDay: '<(new DateTime("2000-10-01"))>'
 
 App\Entity\UserRole:
     user_admin_role:

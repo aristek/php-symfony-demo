@@ -9,12 +9,12 @@ use App\Factory\UserFactory;
 use App\Hydrator\UserHydrator;
 use App\Repository\UserRepository;
 use App\Service\UserService;
-use App\Transformer\UserTransformer;
 use Aristek\Bundle\JSONAPIBundle\Controller\AbstractController;
 use Aristek\Bundle\JSONAPIBundle\Entity\File\File;
 use Aristek\Bundle\JSONAPIBundle\JsonApi\Error\ErrorDocumentFactory;
 use Aristek\Bundle\JSONAPIBundle\Service\Filter\ResourceProvider;
 use Aristek\Bundle\JSONAPIBundle\Service\WrongFieldsLogger;
+use Aristek\Bundle\JSONAPIBundle\Transformer\TransformerRegistry;
 use Paknahad\JsonApiBundle\Helper\Filter\FinderCollection;
 use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -46,14 +46,14 @@ class UserController extends AbstractController
     private $userRepository;
 
     /**
-     * @var UserTransformer
-     */
-    private $userTransformer;
-
-    /**
      * @var ValidatorInterface
      */
     private $validator;
+
+    /**
+     * @var TransformerRegistry
+     */
+    private $registry;
 
     /**
      * UserController constructor.
@@ -63,10 +63,10 @@ class UserController extends AbstractController
      * @param RouterInterface      $router
      * @param ErrorDocumentFactory $errorDocumentFactory
      * @param UserRepository       $userRepository
-     * @param UserTransformer      $userTransformer
      * @param UserFactory          $userFactory
      * @param UserHydrator         $userHydrator
      * @param ValidatorInterface   $validator
+     * @param TransformerRegistry  $registry
      */
     public function __construct(
         FinderCollection $finderCollection,
@@ -74,18 +74,18 @@ class UserController extends AbstractController
         RouterInterface $router,
         ErrorDocumentFactory $errorDocumentFactory,
         UserRepository $userRepository,
-        UserTransformer $userTransformer,
         UserFactory $userFactory,
         UserHydrator $userHydrator,
-        ValidatorInterface $validator
+        ValidatorInterface $validator,
+        TransformerRegistry $registry
     ) {
         parent::__construct($finderCollection, $wrongFieldsLogger, $router, $errorDocumentFactory);
 
         $this->userFactory = $userFactory;
         $this->userHydrator = $userHydrator;
         $this->userRepository = $userRepository;
-        $this->userTransformer = $userTransformer;
         $this->validator = $validator;
+        $this->registry = $registry;
     }
 
     /**
@@ -99,7 +99,7 @@ class UserController extends AbstractController
     public function index(Request $request, ResourceProvider $resourceProvider): ResponseInterface
     {
         return $this->jsonApi()->respond()->ok(
-            new UsersDocument($this->userTransformer, $this->urlGenerator),
+            new UsersDocument($this->registry->getTransformer('users'), $this->urlGenerator),
             $resourceProvider->getResources($request, $this->generateQuery($this->userRepository, $request))
         );
     }
@@ -123,7 +123,10 @@ class UserController extends AbstractController
      */
     public function show(User $user): ResponseInterface
     {
-        return $this->jsonApi()->respond()->ok(new UserDocument($this->userTransformer, $this->urlGenerator), $user);
+        return $this->jsonApi()->respond()->ok(
+            new UserDocument($this->registry->getTransformer('users'), $this->urlGenerator),
+            $user
+        );
     }
 
     /**
@@ -142,13 +145,10 @@ class UserController extends AbstractController
         if ($errors->count()) {
             return $this->validationErrorResponse($errors);
         }
-        //        dd($user->getDepartments()->first());
 
         $this->userRepository->save($user);
         // We need to refresh Entity in case of Related Collections
         $this->get('doctrine.orm.default_entity_manager')->refresh($user);
-
-        //        dump($user->getDepartments()->count());die;
 
         return $this->show($user);
     }

@@ -20,3 +20,28 @@ aristek_jsonapi:
                 - 'png'
                 - 'jpeg'
                 - 'jpg'
+
+    resources:
+        contacts:
+            data_type: App\Entity\Contact
+            transformer: App\Transformer\ContactTransformer
+
+        departments:
+            data_type: App\Entity\Department
+            transformer: App\Transformer\DepartmentTransformer
+
+        profiles:
+            data_type: App\Entity\Profile
+            transformer:
+                attributes: ['firstName', 'lastName', 'birthDay']
+                relationships: ['contacts']
+
+        userRoles:
+            data_type: App\Entity\UserRole
+            transformer: App\Transformer\UserRoleTransformer
+
+        users:
+            data_type: App\Entity\User
+            transformer:
+                attributes: ['active', 'avatar', 'email', 'username', 'profile']
+                relationships: ['departments', 'userRoles']
