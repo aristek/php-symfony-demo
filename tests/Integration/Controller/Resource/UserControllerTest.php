@@ -101,6 +101,7 @@ class UserControllerTest extends AbstractControllerTest
                 'profile'  => [
                     'firstName' => 'U_name',
                     'lastName'  => 'U_name',
+                    // @todo: investigate this strange case should be +03:00
                     'birthDay'  => '2000-10-01T00:00:00+04:00',
                 ],
             ],
@@ -273,12 +274,15 @@ class UserControllerTest extends AbstractControllerTest
                 'id'       => $id,
                 'name'     => 'avatar.png',
                 'original' => sprintf('http://localhost/resources/users/%s.png', $id),
+                'size'     => 109,
+                'mimeType' => 'image/png',
             ],
             'email'    => 'email@email.com',
             'username' => 'username',
             'profile'  => [
                 'firstName' => 'firstName',
                 'lastName'  => 'lastName',
+                'birthDay'  => null,
             ],
         ];
     }
@@ -358,13 +362,15 @@ class UserControllerTest extends AbstractControllerTest
                 'id'       => $avatar1,
                 'name'     => 'avatar.png',
                 'original' => sprintf('http://localhost/resources/users/%s.png', $avatar1),
+                'size'     => 109,
+                'mimeType' => 'image/png',
             ],
             'email'    => 'admin@aristek.test.com',
             'username' => 'admin',
             'profile'  => [
                 'firstName' => 'firstName',
                 'lastName'  => 'lastName',
-                'birthDay'  => '2000-01-01T00:00:00+04:00',
+                'birthDay'  => '2000-01-01T00:00:00+03:00',
             ],
         ];
     }
