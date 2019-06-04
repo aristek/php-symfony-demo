@@ -31,5 +31,5 @@ doctrine:
             JSONAPIBundle:
                 is_bundle: false
                 type: yml
-                dir: '%kernel.project_dir%/vendor/aristek/aristek-symfony-json-api/Bundle/JSONAPIBundle/Resources/config/doctrine'
+                dir: '%kernel.project_dir%/vendor/aristek/aristek-symfony-json-api/src/Resources/config/doctrine'
                 prefix: 'Aristek\Bundle\JSONAPIBundle\Model'

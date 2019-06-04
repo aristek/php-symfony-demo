@@ -4,21 +4,15 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a5b8395304aa99abbe8c2e0aa963cd37",
+    "content-hash": "695d5f91eea61f4203b1a24db84cbf12",
     "packages": [
         {
             "name": "aristek/aristek-general",
             "version": "3.0.x-dev",
             "source": {
                 "type": "git",
-                "url": "git@github.com:aturchak/aristek-general.git",
-                "reference": "6b20dabca43bbadee3a4223766bf18b4871811d7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/aturchak/aristek-general/zipball/6b20dabca43bbadee3a4223766bf18b4871811d7",
-                "reference": "6b20dabca43bbadee3a4223766bf18b4871811d7",
-                "shasum": ""
+                "url": "git@git.aristeksystems.com:php/aristek-general.git",
+                "reference": "ebb3909252bb60297b555e244608e8c43e79d246"
             },
             "require": {
                 "doctrine/orm": ">=2.4",
@@ -39,21 +33,15 @@
             "license": [
                 "proprietary"
             ],
-            "time": "2019-05-21T17:43:50+00:00"
+            "time": "2019-06-03T11:04:32+00:00"
         },
         {
             "name": "aristek/aristek-symfony-json-api",
             "version": "dev-new-abstract-transformer",
             "source": {
                 "type": "git",
-                "url": "git@github.com:aturchak/aristek-symfony-json-api.git",
-                "reference": "75c1bf86832608ae86a7f589f8aedb8a2a49356a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/aturchak/aristek-symfony-json-api/zipball/75c1bf86832608ae86a7f589f8aedb8a2a49356a",
-                "reference": "75c1bf86832608ae86a7f589f8aedb8a2a49356a",
-                "shasum": ""
+                "url": "git@git.aristeksystems.com:php/aristek-symfony-json-api.git",
+                "reference": "5807d4f6a65a7a0c9559d739bc0975fede8a2e13"
             },
             "require": {
                 "aristek/aristek-general": "2.0.x-dev|3.0.x-dev",
@@ -88,7 +76,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Aristek\\": ""
+                    "Aristek\\Bundle\\JSONAPIBundle\\": "src/"
                 }
             },
             "autoload-dev": {
@@ -99,21 +87,15 @@
             "license": [
                 "proprietary"
             ],
-            "time": "2019-05-21T17:38:48+00:00"
+            "time": "2019-06-04T15:44:16+00:00"
         },
         {
             "name": "aristek/aristek-test",
             "version": "v1.0.0",
             "source": {
                 "type": "git",
-                "url": "git@github.com:aturchak/aristek-test.git",
+                "url": "git@git.aristeksystems.com:php/aristek-test.git",
                 "reference": "e15fcb19980736363e21be86471cec2914794ac2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/aturchak/aristek-test/zipball/e15fcb19980736363e21be86471cec2914794ac2",
-                "reference": "e15fcb19980736363e21be86471cec2914794ac2",
-                "shasum": ""
             },
             "require": {
                 "doctrine/data-fixtures": "^1.2",

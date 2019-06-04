@@ -37,17 +37,17 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "git@github.com:aturchak/aristek-general.git",
+            "url": "git@git.aristeksystems.com:php/aristek-general.git",
             "no-api": true
         },
         {
             "type": "vcs",
-            "url": "git@github.com:aturchak/aristek-symfony-json-api.git",
+            "url": "git@git.aristeksystems.com:php/aristek-symfony-json-api.git",
             "no-api": true
         },
         {
             "type": "vcs",
-            "url": "git@github.com:aturchak/aristek-test.git",
+            "url": "git@git.aristeksystems.com:php/aristek-test.git",
             "no-api": true
         }
     ],
