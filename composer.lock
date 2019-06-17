@@ -12,7 +12,7 @@
             "source": {
                 "type": "git",
                 "url": "git@git.aristeksystems.com:php/aristek-general.git",
-                "reference": "ebb3909252bb60297b555e244608e8c43e79d246"
+                "reference": "e20d6955f5c7c898bf3381c4eba17e67750e43dc"
             },
             "require": {
                 "doctrine/orm": ">=2.4",
@@ -33,7 +33,7 @@
             "license": [
                 "proprietary"
             ],
-            "time": "2019-06-03T11:04:32+00:00"
+            "time": "2019-06-06T18:17:55+00:00"
         },
         {
             "name": "aristek/aristek-symfony-json-api",
@@ -41,10 +41,10 @@
             "source": {
                 "type": "git",
                 "url": "git@git.aristeksystems.com:php/aristek-symfony-json-api.git",
-                "reference": "5807d4f6a65a7a0c9559d739bc0975fede8a2e13"
+                "reference": "b4892c0a402c85013c72d6fbaafbbbf1821aa962"
             },
             "require": {
-                "aristek/aristek-general": "2.0.x-dev|3.0.x-dev",
+                "aristek/aristek-general": "^3.0.1",
                 "aristek/aristek-test": "^1.0",
                 "doctrine/orm": ">=2.4",
                 "ext-fileinfo": "*",
@@ -87,7 +87,7 @@
             "license": [
                 "proprietary"
             ],
-            "time": "2019-06-04T15:44:16+00:00"
+            "time": "2019-06-06T18:32:10+00:00"
         },
         {
             "name": "aristek/aristek-test",

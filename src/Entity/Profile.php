@@ -41,7 +41,7 @@ class Profile
     /**
      * @var DateTime
      *
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(type="datetimetz", nullable=true)
      */
     private $birthDay;
 
